@@ -1,0 +1,20 @@
+# Build output
+out/
+target/
+*.class
+src/main/webapp/WEB-INF/classes/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local env / secrets
+*.env
+.env
