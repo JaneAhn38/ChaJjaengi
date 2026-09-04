@@ -3,54 +3,53 @@
 <html>
 <head>
 <link rel="stylesheet" href="../resources/css/bootstrap.min.css" />
-<title>Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<link rel="stylesheet" href="../resources/css/theme.css" />
+<title>로그인 | 차쟁이</title>
 </head>
 <body>
 
-<div class="container py-4">
 <jsp:include page="../common/menu.jsp" />
 
- <div class="p-5 mb-4 bg-body-tertiary rounded-3">
-      <div class="container-fluid py-5">
-        <h1 class="display-5 fw-bold">회원 로그인</h1>
-        <p class="col-md-8 fs-4">Membership Login</p>      
-      </div>
-    </div>
+<div class="page-hero">
+	<h1>회원 로그인</h1>
+	<p>Membership Login</p>
+</div>
 
-
-	<div class="container" align="center">
-		<div class="col-md-4 col-md-offset-4">
-			<h3 class="form-signin-heading">Please sign in</h3>
-			<%
-				String error = request.getParameter("error");
-				if (error != null) {
-					out.println("<div class='alert alert-danger'>");
-					out.println("아이디와 비밀번호를 확인해 주세요");
-					out.println("</div>");
-				}
-			%>
-            <% String csrfToken = util.CsrfUtil.getOrCreateToken(session); %>
-  			<form class="form-signin" action="${pageContext.request.contextPath}/processLoginMember" method="post">
-  			    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-    			<div class="form-floating mb-3 row">     
-      				<input type="text" class="form-control" name='id' id="floatingInput" placeholder="ID" required autofocus>
-      				<label for="floatingInput">ID</label>      
-    			</div>
-    			<div class="form-floating  mb-3 row">
-     	 			<input type="password" class="form-control" name='password' placeholder="Password">
-    				 <label for="floatingPassword">Password</label>
-			</div>
-
-   
-  				<button class="btn btn btn-lg btn-success btn-block" type="submit">로그인</button>
-   				
-  			</form>
-
+<div class="auth-card">
+	<h3><i class="fa-solid fa-right-to-bracket" style="color:var(--figma-point-red);"></i> Please sign in</h3>
+	<%
+		String error = request.getParameter("error");
+		if (error != null) {
+			out.println("<div class='alert alert-danger mb-3'>");
+			out.println("아이디와 비밀번호를 확인해 주세요");
+			out.println("</div>");
+		}
+	%>
+	<% String csrfToken = util.CsrfUtil.getOrCreateToken(session); %>
+	<form action="${pageContext.request.contextPath}/processLoginMember" method="post">
+		<input type="hidden" name="_csrf" value="<%= csrfToken %>">
+		<div class="mb-3">
+			<label class="form-label">ID</label>
+			<input type="text" class="form-control" name='id' placeholder="아이디" required autofocus>
 		</div>
-	</div>
+		<div class="mb-4">
+			<label class="form-label">Password</label>
+			<input type="password" class="form-control" name='password' placeholder="비밀번호">
+		</div>
 
-	<jsp:include page="../common/footer.jsp" />
-  </div>	
-  </body>			
-	
+		<button class="btn btn-figma-primary w-100" type="submit">
+			<i class="fa-solid fa-right-to-bracket"></i> 로그인
+		</button>
+	</form>
+
+	<div class="text-center mt-4" style="font-size:0.9rem; color:var(--figma-text-gray);">
+		아직 계정이 없으신가요?
+		<a href="${pageContext.request.contextPath}/member/addMember.jsp" style="color:var(--figma-point-red); font-weight:700; text-decoration:none;">회원가입</a>
+	</div>
+</div>
+
+<jsp:include page="../common/footer.jsp" />
+</body>
 </html>

@@ -11,6 +11,8 @@
     <meta charset="UTF-8">
     <title>AnyoneHere - 나의 신청 내역</title>
     <link rel="stylesheet" href="../resources/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../resources/css/theme.css"/>
+    <script src="../resources/js/customAlert.js"></script>
     <style>
         .badge-PENDING  { background-color: #ffc107; color: #000; }
         .badge-APPROVED { background-color: #198754; color: #fff; }
@@ -23,8 +25,9 @@
     if (userId == null) {
 %>
 <script>
-    alert("로그인이 필요합니다.");
-    location.href = "../member/loginMember.jsp";
+    showAlert("로그인이 필요합니다.", function() {
+        location.href = "../member/loginMember.jsp";
+    });
 </script>
 <%
         return;
@@ -38,9 +41,9 @@
 <div class="container py-4">
     <%@ include file="../common/menu.jsp" %>
 
-    <div class="p-4 mb-4 bg-body-tertiary rounded-3">
-        <h1 class="display-5 fw-bold">나의 신청 내역</h1>
-        <p class="fs-5">장소 추가/삭제 신청 현황을 확인할 수 있습니다.</p>
+    <div class="py-4">
+        <h1 class="fw-bold" style="color:#1C1C1E;">나의 신청 내역</h1>
+        <p class="fs-5" style="color:var(--figma-text-gray);">장소 추가/삭제 신청 현황을 확인할 수 있습니다.</p>
     </div>
 
     <!-- 탭 -->

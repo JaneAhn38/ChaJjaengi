@@ -3,91 +3,75 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <link rel="stylesheet" href="../resources/css/bootstrap.min.css" />
-<header class="pb-3 mb-4 border-bottom">
-	<div class="container" style="position:relative;">
-		<div
-				class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-			<a href="<c:url value="../index.jsp"/>"
-			   class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-				<svg width="32" height="32" fill="currentColor"
-					 class="bi bi-house-fill" viewBox="0 0 16 16">
-					<path
-							d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5Z" />
-					<path
-							d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6Z" />
-				</svg> <span class="fs-4">Home</span>
-			</a>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<link rel="stylesheet" href="../resources/css/theme.css" />
+<script src="../resources/js/customAlert.js"></script>
 
-			<ul class="nav nav-pills">
-				<li class="nav-item"><a class="nav-link"
-								href="<c:url value="/spot/spots.jsp"/>">
-					스팟 보기</a>
-				</li>
-				<li class="nav-item"><a class="nav-link"
-								href="${pageContext.request.contextPath}/community/board.jsp">
-					커뮤니티</a>
-				</li>
+<!-- 1번째 줄(로고+로그인 상태): 원래대로 상단 고정 -->
+<nav class="custom-nav d-flex justify-content-between align-items-center flex-wrap">
+	<div class="nav-left">
+		<a href="<c:url value="/index.jsp"/>" class="home-icon-box"><i class="fa-solid fa-house"></i></a>
+		<a href="<c:url value="/index.jsp"/>" class="nav-home-text">차쟁이</a>
+	</div>
 
-				<c:choose>
-					<c:when test="${empty sessionScope.userId}">
-						<li class="nav-item"><a class="nav-link"
-										href="<c:url value="/member/loginMember.jsp"/>">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
-								<path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0z"/>
-								<path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
-							</svg> 로그인</a>
-						</li>
-						<li class="nav-item"><a class="nav-link"
-										href="<c:url value="/member/addMember.jsp"/>">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
-								<path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-								<path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
-							</svg> 회원가입</a>
-						</li>
-					</c:when>
-					<c:otherwise>
-						<li style="padding-top: 7px; color: white">[<c:out value="${sessionScope.userId}"/>님]</li>
-						<li class="nav-item">
-							<form action="${pageContext.request.contextPath}/processLogoutMember" method="post" class="d-inline m-0 p-0">
-								<input type="hidden" name="_csrf" value="<%=util.CsrfUtil.getOrCreateToken(session)%>">
-								<button type="submit" class="btn nav-link px-2 py-1">
-									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
-										<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
-									</svg> 로그아웃
-								</button>
-							</form>
-						</li>
-						<li class="nav-item"><a class="nav-link"
-										   href="<c:url value="/member/updateMember.jsp"/>">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-								<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-								<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-							</svg> 회원 수정</a>
-						</li>
-						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/wishlist/wishlist.jsp">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-								<path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
-							</svg> 찜목록</a>
-						</li>
-						<li class="nav-item"><a class="nav-link"
-										   href="${pageContext.request.contextPath}/profile/myProfile.jsp">
-							내 프로필</a>
-						</li>
-						<li class="nav-item"><a class="nav-link"
-										   href="${pageContext.request.contextPath}/spotApplication/myApplications.jsp">
-							나의 신청 내역</a>
-						</li>
-						<c:if test="${sessionScope.userRole == 'ADMIN'}">
-						<li class="nav-item"><a class="nav-link text-warning fw-bold"
-										   href="${pageContext.request.contextPath}/admin/spotApplicationAdmin.jsp">관리자</a></li>
-						</c:if>
+	<div class="nav-right">
+		<c:choose>
+			<c:when test="${empty sessionScope.userId}">
+				<a class="nav-link-item" href="<c:url value="/member/loginMember.jsp"/>">
+					<i class="fa-solid fa-right-to-bracket"></i> 로그인</a>
+				<a class="nav-signup-btn" href="<c:url value="/member/addMember.jsp"/>">
+					<i class="fa-solid fa-user-plus"></i> 회원가입</a>
+			</c:when>
+			<c:otherwise>
+				<span class="nav-user-badge">[<c:out value="${sessionScope.userId}"/>님]</span>
+				<form action="${pageContext.request.contextPath}/processLogoutMember" method="post" class="d-inline m-0 p-0">
+					<input type="hidden" name="_csrf" value="<%=util.CsrfUtil.getOrCreateToken(session)%>">
+					<button type="submit" class="nav-link-item">
+						<i class="fa-solid fa-circle-xmark"></i> 로그아웃
+					</button>
+				</form>
+			</c:otherwise>
+		</c:choose>
+	</div>
+</nav>
 
-					</c:otherwise>
-				</c:choose>
-			</ul>
+<!-- 2번째 줄(메뉴 링크): 하단 고정 -->
+<div class="bottom-toolbar">
+	<div class="sub-nav">
+		<div class="sub-nav-inner">
+			<a class="nav-link-item" href="<c:url value="/spot/spots.jsp"/>">
+				<i class="fa-solid fa-location-dot"></i> 스팟 보기</a>
+			<a class="nav-link-item" href="${pageContext.request.contextPath}/community/board.jsp">
+				<i class="fa-solid fa-comments"></i> 커뮤니티</a>
+
+			<c:if test="${not empty sessionScope.userId}">
+				<a class="nav-link-item" href="${pageContext.request.contextPath}/wishlist/wishlist.jsp">
+					<i class="fa-solid fa-heart"></i> 찜목록</a>
+
+				<div class="mypage-dropdown" tabindex="0">
+					<span class="mypage-dropdown-toggle">
+						<i class="fa-solid fa-user"></i> 마이페이지 <i class="fa-solid fa-chevron-up" style="font-size:0.7em;"></i>
+					</span>
+					<div class="mypage-dropdown-menu">
+						<a href="${pageContext.request.contextPath}/profile/myProfile.jsp">
+							<i class="fa-solid fa-user"></i> 내 프로필</a>
+						<a href="<c:url value="/member/updateMember.jsp"/>">
+							<i class="fa-solid fa-pen-to-square"></i> 개인정보 수정</a>
+						<a href="${pageContext.request.contextPath}/spotApplication/myApplications.jsp">
+							<i class="fa-solid fa-clipboard-list"></i> 나의 신청 내역</a>
+					</div>
+				</div>
+
+				<c:if test="${sessionScope.userRole == 'ADMIN'}">
+					<a class="nav-link-item" style="color:#FFD24C;" href="${pageContext.request.contextPath}/admin/spotApplicationAdmin.jsp">
+						<i class="fa-solid fa-shield-halved"></i> 관리자</a>
+				</c:if>
+			</c:if>
 		</div>
 	</div>
-</header>
+</div>
+
 <c:if test="${sessionScope.locationOn == true}">
 <script>
 (function() {

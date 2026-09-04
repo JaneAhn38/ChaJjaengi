@@ -11,6 +11,8 @@
     <meta charset="UTF-8">
     <title>AnyoneHere - 내 프로필</title>
     <link rel="stylesheet" href="../resources/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../resources/css/theme.css"/>
+    <script src="../resources/js/customAlert.js"></script>
     <style>
         .profile-img {
             width: 120px; height: 120px;
@@ -41,8 +43,9 @@
     if (userId == null) {
 %>
 <script>
-    alert("로그인이 필요합니다.");
-    location.href = "../member/loginMember.jsp";
+    showAlert("로그인이 필요합니다.", function() {
+        location.href = "../member/loginMember.jsp";
+    });
 </script>
 <%
         return;

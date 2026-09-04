@@ -5,7 +5,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="../resources/css/bootstrap.min.css"/>
-    <title>회원 수정</title>
+    <title>개인정보 수정</title>
 </head>
 <body>
 <%
@@ -47,11 +47,9 @@
 <div class="container py-4">
     <jsp:include page="../common/menu.jsp"/>
 
-    <div class="p-5 mb-4 bg-body-tertiary rounded-3">
-        <div class="container-fluid py-5">
-            <h1 class="display-5 fw-bold">회원 수정</h1>
-            <p class="col-md-8 fs-4">Membership Updating</p>
-        </div>
+    <div class="py-4">
+        <h1 class="fw-bold" style="color:#1C1C1E;">개인정보 수정</h1>
+        <p class="fs-5" style="color:var(--figma-text-gray);">Membership Updating</p>
     </div>
 
     <% if ("delete".equals(request.getParameter("error"))) { %>
@@ -189,7 +187,7 @@ function checkForm() {
     const form = document.newMember;
     if (!form.password.value && !form.password_confirm.value) return true; // 비밀번호 미변경
     if (form.password.value !== form.password_confirm.value) {
-        alert("비밀번호를 동일하게 입력하세요.");
+        showAlert("비밀번호를 동일하게 입력하세요.");
         return false;
     }
     return true;

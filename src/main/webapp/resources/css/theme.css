@@ -1,0 +1,445 @@
+/* ==========================================================================
+   차쟁이 공통 테마 (Figma 디자인 기준)
+   index.jsp의 다크 네비 + 레드 포인트 컬러를 사이트 전체에서 재사용하기 위한 공통 CSS.
+   common/menu.jsp, 로그인/회원가입 등 index.jsp 바깥 페이지에서 이 파일을 링크합니다.
+   ========================================================================== */
+
+:root {
+    --figma-bg: #1C1C1C;
+    --figma-card-bg: #FFFFFF;
+    --figma-point-red: #FF3B30;
+    --figma-point-red-hover: #D62F26;
+    --figma-text-gray: #8A8A8E;
+    --figma-border: rgba(0, 0, 0, 0.08);
+    --figma-page-bg: #F2F2F7;
+}
+
+body {
+    background-color: var(--figma-page-bg);
+    color: #1C1C1E;
+    font-family: 'Inter', sans-serif;
+}
+
+/* ---------- 하단 고정 툴바 (menu.jsp) ---------- */
+.bottom-toolbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.18);
+}
+/* 툴바에 가려지지 않도록 본문 하단 여백 확보 (menu.jsp를 통해 전 페이지에 적용됨) */
+body {
+    padding-bottom: 110px;
+}
+
+/* ---------- 공통 네비게이션 (menu.jsp / index.jsp 공용, 1번째 줄은 상단 고정) ---------- */
+.custom-nav {
+    background-color: var(--figma-bg);
+    padding: 0.75rem 2rem;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1001;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.home-icon-box {
+    background-color: #3A3A3C;
+    padding: 10px;
+    border-radius: 12px;
+    color: var(--figma-point-red);
+    font-size: 1.2rem;
+    text-decoration: none;
+    display: inline-flex;
+}
+.nav-home-text { font-weight: 700; font-size: 1.1rem; color: white; text-decoration: none; }
+
+.nav-center { text-align: center; }
+.nav-center h1 { font-size: 1.5rem; font-weight: 800; margin: 0; color: white; }
+.nav-center h2 { font-size: 0.8rem; font-weight: 700; margin: 0; color: white; }
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    flex-wrap: wrap;
+}
+.nav-link-item {
+    text-decoration: none;
+    color: inherit;
+    transition: 0.2s;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    font-size: 0.9rem;
+}
+.nav-link-item:hover { color: white; }
+.nav-user-badge {
+    color: var(--figma-point-red);
+    font-weight: 700;
+}
+.nav-signup-btn {
+    background-color: var(--figma-point-red);
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.nav-signup-btn:hover { background-color: var(--figma-point-red-hover); color: white; }
+
+/* ---------- 서브 네비게이션 (메뉴 링크용 두번째 줄) ---------- */
+.sub-nav {
+    background-color: #232325;
+    padding: 1.1rem 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+.sub-nav-inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 42px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.65);
+    flex-wrap: wrap;
+}
+.sub-nav-inner .nav-link-item { font-size: 0.95rem; }
+.sub-nav-inner .nav-link-item i,
+.mypage-dropdown-toggle i:first-child { font-size: 1.05rem; }
+
+/* 마이페이지 드롭다운 (JS 없이 hover/focus로 동작) */
+.mypage-dropdown {
+    position: relative;
+}
+.mypage-dropdown-toggle {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+.mypage-dropdown-toggle:hover { color: white; }
+.mypage-dropdown-menu {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    margin-bottom: 10px;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+    padding: 8px;
+    min-width: 170px;
+}
+/* 토글과 메뉴 사이 10px 간격에서 커서가 벗어나 호버가 풀리는 것을 막는
+   투명 브릿지 (간격 자체를 hover 가능한 영역으로 이어줌) */
+.mypage-dropdown-menu::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 10px;
+}
+.mypage-dropdown:hover .mypage-dropdown-menu,
+.mypage-dropdown:focus-within .mypage-dropdown-menu {
+    display: block;
+}
+.mypage-dropdown-menu a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 12px;
+    border-radius: 8px;
+    color: #1C1C1E;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+.mypage-dropdown-menu a:hover {
+    background-color: #F7F7FA;
+    color: var(--figma-point-red);
+}
+
+/* ---------- 페이지 헤더 (로그인/회원가입 등 서브 페이지 상단) ---------- */
+.page-hero {
+    padding: 48px 0 32px;
+    text-align: center;
+}
+.page-hero h1 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #1C1C1E;
+    margin: 0 0 6px;
+}
+.page-hero p {
+    color: var(--figma-text-gray);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+/* ---------- 카드형 폼 (로그인 / 회원가입 공용) ---------- */
+.auth-card {
+    background-color: var(--figma-card-bg);
+    border-radius: 24px;
+    border: 1px solid var(--figma-border);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    padding: 40px;
+    max-width: 480px;
+    margin: 0 auto 60px;
+}
+.auth-card.auth-card-wide {
+    max-width: 720px;
+}
+.auth-card h3 {
+    font-weight: 800;
+    font-size: 1.3rem;
+    margin-bottom: 24px;
+    color: #1C1C1E;
+}
+
+.auth-card .form-label,
+.auth-card label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #1C1C1E;
+}
+
+.auth-card .form-control,
+.auth-card .form-select {
+    border-radius: 12px;
+    border: 1px solid var(--figma-border);
+    padding: 10px 14px;
+    background-color: var(--figma-page-bg);
+}
+.auth-card .form-control:focus,
+.auth-card .form-select:focus {
+    border-color: var(--figma-point-red);
+    box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.12);
+    background-color: white;
+}
+
+.btn-figma-primary {
+    background-color: var(--figma-point-red);
+    border: none;
+    color: white;
+    font-weight: 700;
+    border-radius: 12px;
+    padding: 10px 24px;
+}
+.btn-figma-primary:hover { background-color: var(--figma-point-red-hover); color: white; }
+
+.btn-figma-secondary {
+    background-color: white;
+    border: 1px solid var(--figma-border);
+    color: var(--figma-text-gray);
+    font-weight: 700;
+    border-radius: 12px;
+    padding: 10px 24px;
+}
+.btn-figma-secondary:hover { background-color: var(--figma-page-bg); }
+
+/* ---------- 커스텀 알림 팝업 (customAlert.js, alert() 대체) ---------- */
+.custom-alert-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+    padding: 20px;
+}
+.custom-alert-box {
+    background: white;
+    border-radius: 20px;
+    padding: 28px 26px 22px;
+    max-width: 360px;
+    width: 100%;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+    text-align: center;
+}
+.custom-alert-message {
+    font-size: 0.95rem;
+    color: #1C1C1E;
+    font-weight: 600;
+    line-height: 1.55;
+    white-space: pre-line;
+    margin-bottom: 20px;
+}
+.custom-alert-ok-btn {
+    background: var(--figma-point-red);
+    color: white;
+    border: none;
+    padding: 10px 32px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+.custom-alert-ok-btn:hover { background: var(--figma-point-red-hover); }
+
+.auth-card .alert-danger {
+    border-radius: 12px;
+    border: none;
+    background-color: rgba(255, 59, 48, 0.1);
+    color: var(--figma-point-red-hover);
+    font-size: 0.9rem;
+}
+
+/* ==========================================================================
+   전역 Bootstrap 컴포넌트 오버라이드
+   기존 페이지들은 마크업/구조는 그대로 두고 Bootstrap 기본 클래스만 쓰고
+   있어서, 그 클래스들의 색/모양만 테마에 맞게 덮어써서 사이트 전체 톤을
+   맞춥니다. (login/signup처럼 마크업 자체를 새로 짜지 않아도 적용됨)
+   ========================================================================== */
+
+a {
+    color: var(--figma-point-red);
+}
+a:hover {
+    color: var(--figma-point-red-hover);
+}
+
+/* 페이지 상단 배너 (jsp들의 "bg-body-tertiary rounded-3" 패턴) */
+.bg-body-tertiary {
+    background-color: var(--figma-bg) !important;
+    color: white;
+}
+.bg-body-tertiary h1,
+.bg-body-tertiary h2,
+.bg-body-tertiary h3 {
+    color: white !important;
+}
+.bg-body-tertiary p,
+.bg-body-tertiary .fs-4,
+.bg-body-tertiary .fs-5 {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+.rounded-3 {
+    border-radius: 20px !important;
+}
+
+/* 카드 */
+.card {
+    border: 1px solid var(--figma-border);
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+}
+.card-title { color: #1C1C1E; }
+
+/* 버튼 */
+.btn-primary {
+    background-color: var(--figma-point-red);
+    border-color: var(--figma-point-red);
+}
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: var(--figma-point-red-hover);
+    border-color: var(--figma-point-red-hover);
+}
+.btn-secondary {
+    background-color: var(--figma-bg);
+    border-color: var(--figma-bg);
+}
+.btn-secondary:hover,
+.btn-secondary:focus {
+    background-color: #3A3A3C;
+    border-color: #3A3A3C;
+}
+.btn-outline-secondary {
+    color: var(--figma-bg);
+    border-color: var(--figma-border);
+}
+.btn-outline-secondary:hover {
+    background-color: var(--figma-bg);
+    border-color: var(--figma-bg);
+}
+.btn-outline-danger {
+    color: var(--figma-point-red);
+    border-color: var(--figma-point-red);
+}
+.btn-outline-danger:hover {
+    background-color: var(--figma-point-red);
+    border-color: var(--figma-point-red);
+}
+.btn, .page-link, .nav-link {
+    border-radius: 10px;
+}
+
+/* 폼 요소 (auth-card 바깥에서 쓰는 검색창 등) */
+.form-control,
+.form-select {
+    border-radius: 10px;
+    border: 1px solid var(--figma-border);
+}
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--figma-point-red);
+    box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.12);
+}
+
+/* 탭 */
+.nav-tabs {
+    border-bottom: 1px solid var(--figma-border);
+}
+.nav-tabs .nav-link {
+    color: var(--figma-text-gray);
+    border: none;
+    font-weight: 600;
+}
+.nav-tabs .nav-link.active {
+    color: var(--figma-point-red);
+    background: none;
+    border: none;
+    border-bottom: 2px solid var(--figma-point-red);
+}
+
+/* 페이지네이션 */
+.pagination .page-link {
+    color: #1C1C1E;
+    border: 1px solid var(--figma-border);
+}
+.pagination .page-item.active .page-link {
+    background-color: var(--figma-point-red);
+    border-color: var(--figma-point-red);
+}
+
+/* 표 (커뮤니티 게시판 등) */
+.table thead {
+    background-color: #F7F7FA;
+}
+.table > :not(caption) > * > * {
+    border-bottom-color: var(--figma-border);
+}
+
+/* 알림 배너 */
+.alert {
+    border-radius: 14px;
+    border: none;
+}
+.alert-secondary { background-color: #F2F2F7; color: var(--figma-text-gray); }
+.alert-warning { background-color: rgba(255, 193, 7, 0.15); color: #8A6100; }
+.alert-danger { background-color: rgba(255, 59, 48, 0.1); color: var(--figma-point-red-hover); }

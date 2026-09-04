@@ -15,11 +15,8 @@
 <div class="container py-5">
     <jsp:include page="../common/menu.jsp"/>
 
-    <div class="p-5 mb-4 bg-body-tertiary rounded-3">
-        <div class="container-fluid py-5">
-            <h1 class="display-5 fw-bold">장소정보</h1>
-            <p class="col-md-8 fs-4">description</p>
-        </div>
+    <div class="py-4">
+        <h1 class="fw-bold" style="color:#1C1C1E;">장소정보</h1>
     </div>
 
     <%

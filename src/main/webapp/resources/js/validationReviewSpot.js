@@ -5,18 +5,18 @@ function validateReviewForm() {
 
     // 별점 유효성 검사
     if (!rating || rating < 1 || rating > 5) {
-        alert("별점을 선택해주세요. (1~5점)");
+        showAlert("별점을 선택해주세요. (1~5점)");
         return false;
     }
 
     // 내용 유효성 검사
     if (content === "") {
-        alert("리뷰 내용을 입력해주세요.");
+        showAlert("리뷰 내용을 입력해주세요.");
         return false;
     }
 
     if (content.length > 1000) {
-        alert("리뷰는 1000자 이하로 작성해주세요.");
+        showAlert("리뷰는 1000자 이하로 작성해주세요.");
         return false;
     }
 

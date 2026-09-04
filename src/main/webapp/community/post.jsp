@@ -185,7 +185,7 @@ function toggleLike(postId) {
     .then(res => res.json())
     .then(data => {
         if (data.error === 'login_required') {
-            alert('로그인 후 이용할 수 있습니다.');
+            showAlert('로그인 후 이용할 수 있습니다.');
             return;
         }
         document.getElementById('likeCount').textContent = data.likeCount;

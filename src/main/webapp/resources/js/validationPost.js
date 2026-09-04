@@ -8,44 +8,44 @@ function validatePostForm() {
     const fileInput = document.getElementById("postImages");
 
     if (!title) {
-        alert("제목을 입력해주세요.");
+        showAlert("제목을 입력해주세요.");
         document.getElementById("title").focus();
         return false;
     }
     if (title.length > 100) {
-        alert("제목은 100자 이하로 입력해주세요.");
+        showAlert("제목은 100자 이하로 입력해주세요.");
         document.getElementById("title").focus();
         return false;
     }
 
     if (!content) {
-        alert("내용을 입력해주세요.");
+        showAlert("내용을 입력해주세요.");
         document.getElementById("content").focus();
         return false;
     }
     if (content.length < 5) {
-        alert("내용을 5자 이상 입력해주세요.");
+        showAlert("내용을 5자 이상 입력해주세요.");
         document.getElementById("content").focus();
         return false;
     }
     if (content.length > 5000) {
-        alert("내용은 5000자 이하로 입력해주세요. (현재 " + content.length + "자)");
+        showAlert("내용은 5000자 이하로 입력해주세요. (현재 " + content.length + "자)");
         document.getElementById("content").focus();
         return false;
     }
 
     if (fileInput && fileInput.files.length > 0) {
         if (fileInput.files.length > POST_IMAGE_MAX_COUNT) {
-            alert("이미지는 최대 " + POST_IMAGE_MAX_COUNT + "장까지 첨부할 수 있습니다.");
+            showAlert("이미지는 최대 " + POST_IMAGE_MAX_COUNT + "장까지 첨부할 수 있습니다.");
             return false;
         }
         for (const file of fileInput.files) {
             if (!POST_IMAGE_ALLOWED.includes(file.type)) {
-                alert("'" + file.name + "'\n허용되지 않는 파일 형식입니다.\n(허용: jpg, png, gif, webp)");
+                showAlert("'" + file.name + "'\n허용되지 않는 파일 형식입니다.\n(허용: jpg, png, gif, webp)");
                 return false;
             }
             if (file.size > POST_IMAGE_MAX_MB * 1024 * 1024) {
-                alert("'" + file.name + "'\n파일 크기가 " + POST_IMAGE_MAX_MB + "MB를 초과합니다.");
+                showAlert("'" + file.name + "'\n파일 크기가 " + POST_IMAGE_MAX_MB + "MB를 초과합니다.");
                 return false;
             }
         }

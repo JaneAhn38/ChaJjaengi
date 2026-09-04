@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <html>
 <head>
-<link rel="stylesheet" href="../../../resources/css/bootstrap.min.css" />
+<link rel="stylesheet" href="../resources/css/bootstrap.min.css" />
 <title>회원 정보</title>
 </head>
 <body>
@@ -9,41 +9,35 @@
 <div class="container py-4">
 	<jsp:include page="../common/menu.jsp" />
 
- <div class="p-5 mb-4 bg-body-tertiary rounded-3">
-      <div class="container-fluid py-5">
+ <div class="py-4">
       <%
 			String msg = request.getParameter("msg");
-      		if ("0".equals(msg)||"2".equals(msg)||"3".equals(msg)){
+      		if (msg == null) {
       %>
-        <h1 class="display-5 fw-bold">회원 정보</h1>
-        <p class="col-md-8 fs-4">Membership Info</p>    
-        <% }
-      		else if (msg.equals("1")){
-        %>  
-         <h1 class="display-5 fw-bold">회원 가입</h1>
-        <p class="col-md-8 fs-4">Membership Joining</p>    
-         <% } else if (msg == null) { %>
-         <h1 class="display-5 fw-bold">알림</h1>
-         <% }%>
-      </div>
+         <h1 class="fw-bold" style="color:#1C1C1E;">알림</h1>
+        <% } else if ("1".equals(msg)) { %>
+         <h1 class="fw-bold" style="color:#1C1C1E;">회원 가입</h1>
+        <p class="fs-5" style="color:var(--figma-text-gray);">Membership Joining</p>
+        <% } else { %>
+        <h1 class="fw-bold" style="color:#1C1C1E;">회원 정보</h1>
+        <p class="fs-5" style="color:var(--figma-text-gray);">Membership Info</p>
+        <% } %>
     </div>
-	
 
-	 <div class="row align-items-md-stretch   text-center">
+
+	 <div class="row align-items-md-stretch text-center">
 		<%
-			
-
 			if (msg != null) {
 				if (msg.equals("0")) //회원 수정
-					out.println(" <h2 class='alert alert-danger'>회원정보가 수정되었습니다.</h2>");
+					out.println(" <h2 style='color:#1C1C1E; font-weight:700;'>회원정보가 수정되었습니다.</h2>");
 				else if (msg.equals("1")) //회원 가입
-					out.println(" <h2 class='alert alert-danger'>회원가입을 축하드립니다.</h2>");
+					out.println(" <h2 style='color:#1C1C1E; font-weight:700;'>회원가입을 축하드립니다.</h2>");
 				else if (msg.equals("2")) { //로그인
 					String loginId = (String) session.getAttribute("userId");
-					out.println(" <h2 class='alert alert-danger'>" + loginId + "님 환영합니다</h2>");
-				}				
+					out.println(" <h2 style='color:#1C1C1E; font-weight:700;'>" + loginId + "님 환영합니다</h2>");
+				}
 			   else if (msg.equals("3")) //가입 탈퇴
-				out.println("<h2 class='alert alert-danger'>회원정보가 삭제되었습니다.</h2>");
+				out.println("<h2 style='color:#1C1C1E; font-weight:700;'>회원정보가 삭제되었습니다.</h2>");
 			}
 		%>
 	</div>

@@ -7,6 +7,8 @@
     <meta charset="UTF-8">
     <title>AnyoneHere - 장소 리뷰 작성</title>
     <link rel="stylesheet" href="../resources/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../resources/css/theme.css" />
+    <script src="../resources/js/customAlert.js"></script>
     <script type="text/javascript" src="../resources/js/validationReviewSpot.js"></script>
 </head>
 <body>
@@ -19,8 +21,9 @@
 %>
 
 <script>
-    alert("로그인을 해야 리뷰를 작성할 수 있습니다!");
-    location.href = "../member/loginMember.jsp";
+    showAlert("로그인을 해야 리뷰를 작성할 수 있습니다!", function() {
+        location.href = "../member/loginMember.jsp";
+    });
 </script>
 <%
         return;

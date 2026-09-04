@@ -59,12 +59,12 @@
     </ul>
 
     <!-- 검색 폼 -->
-    <form method="get" action="spots.jsp" class="d-flex gap-2 mb-4">
+    <form method="get" action="spots.jsp" class="mb-4" style="display:flex; align-items:center; gap:8px;">
         <input type="hidden" name="category" value="<%= category %>">
-        <input type="text" name="keyword" class="form-control" placeholder="장소명 또는 설명으로 검색" value="<%= util.HtmlUtil.escape(keyword) %>">
-        <button type="submit" class="btn btn-outline-secondary">검색</button>
+        <input type="text" name="keyword" class="form-control" style="flex:1; min-width:0;" placeholder="장소명 또는 설명으로 검색" value="<%= util.HtmlUtil.escape(keyword) %>">
+        <button type="submit" class="btn btn-outline-secondary" style="flex-shrink:0;">검색</button>
         <% if (!keyword.isEmpty()) { %>
-        <a href="spots.jsp?category=<%= category %>" class="btn btn-outline-danger">초기화</a>
+        <a href="spots.jsp?category=<%= category %>" class="btn btn-outline-danger" style="flex-shrink:0;">초기화</a>
         <% } %>
     </form>
 

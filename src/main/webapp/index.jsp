@@ -194,53 +194,20 @@
 
 <nav class="custom-nav d-flex justify-content-between align-items-center">
 	<div class="nav-left">
-		<a href="#" class="home-icon-box"><i class="fa-solid fa-home"></i></a>
-		<a href="#" class="nav-home-text">Home</a>
+		<a href="${pageContext.request.contextPath}/" class="home-icon-box"><i class="fa-solid fa-home"></i></a>
+		<a href="${pageContext.request.contextPath}/" class="nav-home-text">Home</a>
 	</div>
 	<div class="nav-center">
 		<h1>차쟁이</h1>
 		<h2>AnyoneHere?</h2>
 	</div>
 	<div class="nav-right">
-		<a class="nav-link-item"><i class="fa-solid fa-location-dot"></i> 스팟 보기</a>
-		<a class="nav-link-item"><i class="fa-solid fa-comments"></i> 커뮤니티</a>
-		<a class="nav-link-item"><i class="fa-solid fa-sign-in-alt"></i> 로그인</a>
-		<a href="#" class="nav-signup-btn"><i class="fa-solid fa-user-plus"></i> 회원가입</a>
+		<a href="${pageContext.request.contextPath}/spot/spots.jsp" class="nav-link-item"><i class="fa-solid fa-location-dot"></i> 스팟 보기</a>
+		<a href="${pageContext.request.contextPath}/community/board.jsp" class="nav-link-item"><i class="fa-solid fa-comments"></i> 커뮤니티</a>
+		<a href="${pageContext.request.contextPath}/member/loginMember.jsp" class="nav-link-item"><i class="fa-solid fa-sign-in-alt"></i> 로그인</a>
+		<a href="${pageContext.request.contextPath}/member/addMember.jsp" class="nav-signup-btn"><i class="fa-solid fa-user-plus"></i> 회원가입</a>
 	</div>
 </nav>
-
-<div class="container-fluid stats-section px-5">
-	<div class="row">
-		<div class="col-md-3">
-			<div class="stat-card">
-				<i class="fa-solid fa-thumbtack stat-icon"></i>
-				<div class="stat-label">등록된 스팟</div>
-				<div class="stat-value">6<span class="stat-unit">곳</span></div>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="stat-card">
-				<i class="fa-solid fa-users stat-icon"></i>
-				<div class="stat-label">지금 활동중</div>
-				<div class="stat-value">68<span class="stat-unit">명</span></div>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="stat-card">
-				<i class="fa-solid fa-fire stat-icon"></i>
-				<div class="stat-label">가장 핫한 곳</div>
-				<div class="stat-value" style="font-size:1.1rem; padding-top:5px;">여의도 한강공원</div>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="stat-card">
-				<i class="fa-solid fa-chart-bar stat-icon"></i>
-				<div class="stat-label">평균 인원</div>
-				<div class="stat-value">11<span class="stat-unit">명</span></div>
-			</div>
-		</div>
-	</div>
-</div>
 
 <div class="container-fluid main-content px-5">
 	<div class="row">
@@ -256,45 +223,49 @@
 				<div class="figma-section-title">인기 스팟 <i class="fa-solid fa-star" style="color:#FFCC00;"></i></div>
 				<div class="figma-section-subtitle">많은 차쟁이들이 모여있는 곳이에요.</div>
 
-				<div class="spot-item">
-					<div class="spot-item-left">
-						<i class="fa-solid fa-location-pin spot-pin"></i>
-						<div>
-							<div class="spot-name">여의도 한강...</div>
-							<div class="spot-coord">37.5285, 126.9331</div>
-						</div>
-					</div>
-					<div class="spot-item-right"><i class="fa-solid fa-users"></i> 23</div>
-				</div>
-
-				<div class="spot-item">
-					<div class="spot-item-left">
-						<i class="fa-solid fa-location-pin spot-pin"></i>
-						<div>
-							<div class="spot-name">잠실 롯데월드</div>
-							<div class="spot-coord">37.5111, 127.0980</div>
-						</div>
-					</div>
-					<div class="spot-item-right"><i class="fa-solid fa-users"></i> 15</div>
-				</div>
-
-				<div class="spot-item" style="margin-bottom:0;">
-					<div class="spot-item-left">
-						<i class="fa-solid fa-location-pin spot-pin"></i>
-						<div>
-							<div class="spot-name">강남 카페거리</div>
-							<div class="spot-coord">37.4979, 127.0276</div>
-						</div>
-					</div>
-					<div class="spot-item-right"><i class="fa-solid fa-users"></i> 12</div>
+				<div id="popularSpotList">
+					<div class="figma-section-subtitle" style="margin:10px 0 0;">불러오는 중...</div>
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
 
-	<div class="mt-5 pb-5">
-		<%@ include file="common/footer.jsp"%>
+<div class="container-fluid stats-section px-5">
+	<div class="row">
+		<div class="col-md-3">
+			<div class="stat-card">
+				<i class="fa-solid fa-thumbtack stat-icon"></i>
+				<div class="stat-label">등록된 스팟</div>
+				<div class="stat-value"><span id="statSpotCount">-</span><span class="stat-unit">곳</span></div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="stat-card">
+				<i class="fa-solid fa-users stat-icon"></i>
+				<div class="stat-label">지금 활동중</div>
+				<div class="stat-value"><span id="statActiveCount">-</span><span class="stat-unit">명</span></div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="stat-card">
+				<i class="fa-solid fa-fire stat-icon"></i>
+				<div class="stat-label">가장 핫한 곳</div>
+				<div class="stat-value" id="statHotSpot" style="font-size:1.1rem; padding-top:5px;">-</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="stat-card">
+				<i class="fa-solid fa-chart-bar stat-icon"></i>
+				<div class="stat-label">평균 인원</div>
+				<div class="stat-value"><span id="statAvgCount">-</span><span class="stat-unit">명</span></div>
+			</div>
+		</div>
 	</div>
+</div>
+
+<div class="mt-5 pb-5">
+	<%@ include file="common/footer.jsp"%>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -473,6 +444,12 @@
 		iconSize: [20, 20], iconAnchor: [10, 10]
 	});
 
+	function escapeHtml(s) {
+		return String(s == null ? '' : s)
+				.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+				.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+	}
+
 	fetch('<%=request.getContextPath()%>/api/spots')
 			.then(function(r) { return r.json(); })
 			.then(function(spots) {
@@ -484,12 +461,48 @@
 					var popup = L.popup({ className: 'custom-popup' })
 							.setContent(
 									'<div class="custom-popup-content">' +
-									'<strong style="font-size:15px; color:#1C1C1E;">' + spot.name + '</strong><br>' +
+									'<strong style="font-size:15px; color:#1C1C1E;">' + escapeHtml(spot.name) + '</strong><br>' +
 									'<span style="color:var(--figma-point-red); font-weight:bold; font-size:13px;"><i class="fa-solid fa-users"></i> ' + spot.activeUserCount + '명 활동 중</span>' +
 									'</div>'
 							);
 					marker.bindPopup(popup);
 				});
+
+				// 6. 상단 통계 위젯 + 인기 스팟 리스트를 실데이터로 채우기
+				var totalActive = spots.reduce(function(sum, s) { return sum + (s.activeUserCount || 0); }, 0);
+				var sorted = spots.slice().sort(function(a, b) { return (b.activeUserCount || 0) - (a.activeUserCount || 0); });
+
+				var elSpotCount = document.getElementById('statSpotCount');
+				var elActiveCount = document.getElementById('statActiveCount');
+				var elHotSpot = document.getElementById('statHotSpot');
+				var elAvgCount = document.getElementById('statAvgCount');
+				var elPopularList = document.getElementById('popularSpotList');
+
+				if (elSpotCount) elSpotCount.textContent = spots.length;
+				if (elActiveCount) elActiveCount.textContent = totalActive;
+				if (elAvgCount) elAvgCount.textContent = spots.length > 0 ? Math.round(totalActive / spots.length) : 0;
+				if (elHotSpot) elHotSpot.textContent = sorted.length > 0 ? sorted[0].name : '-';
+
+				if (elPopularList) {
+					if (sorted.length === 0) {
+						elPopularList.innerHTML = '<div class="figma-section-subtitle" style="margin:10px 0 0;">아직 등록된 스팟이 없어요.</div>';
+					} else {
+						var top3 = sorted.slice(0, 3);
+						elPopularList.innerHTML = top3.map(function(s, i) {
+							var lastStyle = (i === top3.length - 1) ? ' style="margin-bottom:0;"' : '';
+							var shortName = s.name.length > 10 ? s.name.substring(0, 10) + '...' : s.name;
+							return '<div class="spot-item"' + lastStyle + '>' +
+									'<div class="spot-item-left">' +
+									'<i class="fa-solid fa-location-pin spot-pin"></i>' +
+									'<div>' +
+									'<div class="spot-name">' + escapeHtml(shortName) + '</div>' +
+									'</div>' +
+									'</div>' +
+									'<div class="spot-item-right"><i class="fa-solid fa-users"></i> ' + (s.activeUserCount || 0) + '</div>' +
+									'</div>';
+						}).join('');
+					}
+				}
 			});
 </script>
 </body>

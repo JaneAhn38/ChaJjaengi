@@ -47,17 +47,17 @@
     </ul>
 
     <!-- 검색 폼 + 글쓰기 버튼 -->
-    <div class="d-flex justify-content-between align-items-center mb-3 gap-2">
-        <form method="get" action="board.jsp" class="d-flex gap-2 flex-grow-1">
+    <div class="mb-3" style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:nowrap;">
+        <form method="get" action="board.jsp" style="display:flex; align-items:center; gap:8px; flex:1; min-width:0;">
             <input type="hidden" name="category" value="<%= category %>">
-            <input type="text" name="keyword" class="form-control" placeholder="제목 또는 내용으로 검색" value="<%= util.HtmlUtil.escape(keyword) %>">
-            <button type="submit" class="btn btn-outline-secondary">검색</button>
+            <input type="text" name="keyword" class="form-control" style="flex:1; min-width:0;" placeholder="제목 또는 내용으로 검색" value="<%= util.HtmlUtil.escape(keyword) %>">
+            <button type="submit" class="btn btn-outline-secondary" style="flex-shrink:0;">검색</button>
             <% if (!keyword.isEmpty()) { %>
-            <a href="board.jsp?category=<%= category %>" class="btn btn-outline-danger">초기화</a>
+            <a href="board.jsp?category=<%= category %>" class="btn btn-outline-danger" style="flex-shrink:0;">초기화</a>
             <% } %>
         </form>
         <% if (session.getAttribute("userId") != null) { %>
-        <a href="addPost.jsp" class="btn btn-primary btn-sm ms-2">글쓰기</a>
+        <a href="addPost.jsp" class="btn btn-primary btn-sm" style="flex-shrink:0;">글쓰기</a>
         <% } %>
     </div>
 
