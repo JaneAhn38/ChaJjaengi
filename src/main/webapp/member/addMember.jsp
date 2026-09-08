@@ -13,6 +13,12 @@
 	<script src="../resources/js/validationSignIn.js"></script>
 </head>
 <body>
+<%
+	if (session.getAttribute("userId") != null) {
+		response.sendRedirect(request.getContextPath() + "/index.jsp");
+		return;
+	}
+%>
 
 <jsp:include page="../common/menu.jsp" />
 

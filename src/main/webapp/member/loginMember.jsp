@@ -9,6 +9,12 @@
 <title>로그인 | 차쟁이</title>
 </head>
 <body>
+<%
+	if (session.getAttribute("userId") != null) {
+		response.sendRedirect(request.getContextPath() + "/index.jsp");
+		return;
+	}
+%>
 
 <jsp:include page="../common/menu.jsp" />
 

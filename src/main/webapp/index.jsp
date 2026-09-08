@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.Date"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
 	<link rel="stylesheet" href="resources/css/bootstrap.min.css" />
@@ -207,8 +208,21 @@
 	<div class="nav-right">
 		<a href="${pageContext.request.contextPath}/spot/spots.jsp" class="nav-link-item"><i class="fa-solid fa-location-dot"></i> 스팟 보기</a>
 		<a href="${pageContext.request.contextPath}/community/board.jsp" class="nav-link-item"><i class="fa-solid fa-comments"></i> 커뮤니티</a>
-		<a href="${pageContext.request.contextPath}/member/loginMember.jsp" class="nav-link-item"><i class="fa-solid fa-sign-in-alt"></i> 로그인</a>
-		<a href="${pageContext.request.contextPath}/member/addMember.jsp" class="nav-signup-btn"><i class="fa-solid fa-user-plus"></i> 회원가입</a>
+		<c:choose>
+			<c:when test="${empty sessionScope.userId}">
+				<a href="${pageContext.request.contextPath}/member/loginMember.jsp" class="nav-link-item"><i class="fa-solid fa-sign-in-alt"></i> 로그인</a>
+				<a href="${pageContext.request.contextPath}/member/addMember.jsp" class="nav-signup-btn"><i class="fa-solid fa-user-plus"></i> 회원가입</a>
+			</c:when>
+			<c:otherwise>
+				<span class="nav-user-badge">[<c:out value="${sessionScope.userId}"/>님]</span>
+				<form action="${pageContext.request.contextPath}/processLogoutMember" method="post" class="d-inline m-0 p-0">
+					<input type="hidden" name="_csrf" value="<%=util.CsrfUtil.getOrCreateToken(session)%>">
+					<button type="submit" class="nav-link-item">
+						<i class="fa-solid fa-circle-xmark"></i> 로그아웃
+					</button>
+				</form>
+			</c:otherwise>
+		</c:choose>
 	</div>
 </nav>
 
