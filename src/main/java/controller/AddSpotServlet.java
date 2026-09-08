@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import util.FileUtil;
+import util.GeocodeUtil;
 
 import java.io.IOException;
 
@@ -45,8 +46,14 @@ public class AddSpotServlet extends HttpServlet {
             return;
         }
 
-        // 위도/경도는 더 이상 신청 단계에서 입력받지 않음(주소 검색으로 대체) - 승인 시 관리자가 지정
+        // 신청자가 입력한 주소를 카카오 API로 위도/경도 자동 변환 (실패 시 0,0 폴백 -
+        // 관리자 승인 화면에서 확인 후 필요하면 다시 수정 가능)
         double latitude = 0.0, longitude = 0.0;
+        GeocodeUtil.Coordinates coords = GeocodeUtil.geocode(spotAddress);
+        if (coords != null) {
+            latitude = coords.latitude();
+            longitude = coords.longitude();
+        }
 
         // 이미지 저장 (확장자 검증 + UUID 파일명)
         String savedFileName = "";

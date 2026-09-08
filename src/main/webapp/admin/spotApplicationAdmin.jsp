@@ -81,8 +81,8 @@
                             <th>신청자</th>
                             <th>장소명</th>
                             <th>카테고리</th>
-                            <th>설명</th>
                             <th>주소</th>
+                            <th>위도/경도</th>
                             <th>신청일</th>
                             <th>처리</th>
                         </tr>
@@ -110,8 +110,17 @@
                                         <c:otherwise>${app.spotCategory}</c:otherwise>
                                     </c:choose>
                                 </td>
-                                <td style="max-width:200px;"><c:out value="${app.spotDescription}"/></td>
                                 <td><c:out value="${app.spotAddress}"/></td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${app.spotLatitude == 0 && app.spotLongitude == 0}">
+                                            <span class="text-danger small">변환 실패</span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <small>${app.spotLatitude}, ${app.spotLongitude}</small>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
                                 <td><small>${app.createdAt}</small></td>
                                 <td>
                                     <!-- 승인 -->
