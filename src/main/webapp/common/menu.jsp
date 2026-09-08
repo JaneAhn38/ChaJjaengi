@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="../resources/css/theme.css" />
 <script src="../resources/js/customAlert.js"></script>
 
-<!-- 1번째 줄(로고+로그인 상태): 원래대로 상단 고정 -->
+<!-- 로고 + 메뉴 + 로그인 상태를 한 줄에 (index.jsp와 동일한 스타일) -->
 <nav class="custom-nav d-flex justify-content-between align-items-center flex-wrap">
 	<div class="nav-left">
 		<a href="<c:url value="/index.jsp"/>" class="home-icon-box"><i class="fa-solid fa-house"></i></a>
@@ -16,6 +16,10 @@
 		<c:if test="${sessionScope.userRole == 'ADMIN'}">
 			<span style="color:#FFD24C; font-weight:700;">관리자</span>
 		</c:if>
+		<a class="nav-link-item" href="<c:url value="/spot/spots.jsp"/>">
+			<i class="fa-solid fa-location-dot"></i> 스팟 보기</a>
+		<a class="nav-link-item" href="${pageContext.request.contextPath}/community/board.jsp">
+			<i class="fa-solid fa-comments"></i> 커뮤니티</a>
 	</div>
 
 	<div class="nav-right">
@@ -27,35 +31,13 @@
 					<i class="fa-solid fa-user-plus"></i> 회원가입</a>
 			</c:when>
 			<c:otherwise>
-				<span class="nav-user-badge">[<c:out value="${sessionScope.userId}"/>님]</span>
-				<form action="${pageContext.request.contextPath}/processLogoutMember" method="post" class="d-inline m-0 p-0">
-					<input type="hidden" name="_csrf" value="<%=util.CsrfUtil.getOrCreateToken(session)%>">
-					<button type="submit" class="nav-link-item">
-						<i class="fa-solid fa-circle-xmark"></i> 로그아웃
-					</button>
-				</form>
-			</c:otherwise>
-		</c:choose>
-	</div>
-</nav>
-
-<!-- 2번째 줄(메뉴 링크): 하단 고정 -->
-<div class="bottom-toolbar">
-	<div class="sub-nav">
-		<div class="sub-nav-inner">
-			<a class="nav-link-item" href="<c:url value="/spot/spots.jsp"/>">
-				<i class="fa-solid fa-location-dot"></i> 스팟 보기</a>
-			<a class="nav-link-item" href="${pageContext.request.contextPath}/community/board.jsp">
-				<i class="fa-solid fa-comments"></i> 커뮤니티</a>
-
-			<c:if test="${not empty sessionScope.userId}">
 				<c:if test="${sessionScope.userRole != 'ADMIN'}">
 					<a class="nav-link-item" href="${pageContext.request.contextPath}/wishlist/wishlist.jsp">
 						<i class="fa-solid fa-heart"></i> 찜목록</a>
 
 					<div class="mypage-dropdown" tabindex="0">
 						<span class="mypage-dropdown-toggle">
-							<i class="fa-solid fa-user"></i> 마이페이지 <i class="fa-solid fa-chevron-up" style="font-size:0.7em;"></i>
+							<i class="fa-solid fa-user"></i> 마이페이지 <i class="fa-solid fa-chevron-down" style="font-size:0.7em;"></i>
 						</span>
 						<div class="mypage-dropdown-menu">
 							<a href="${pageContext.request.contextPath}/profile/myProfile.jsp">
@@ -72,10 +54,18 @@
 					<a class="nav-link-item" style="color:#FFD24C;" href="${pageContext.request.contextPath}/admin/spotApplicationAdmin.jsp">
 						<i class="fa-solid fa-shield-halved"></i> 관리자</a>
 				</c:if>
-			</c:if>
-		</div>
+
+				<span class="nav-user-badge">[<c:out value="${sessionScope.userId}"/>님]</span>
+				<form action="${pageContext.request.contextPath}/processLogoutMember" method="post" class="d-inline m-0 p-0">
+					<input type="hidden" name="_csrf" value="<%=util.CsrfUtil.getOrCreateToken(session)%>">
+					<button type="submit" class="nav-link-item nav-logout-btn">
+						<i class="fa-solid fa-circle-xmark"></i> 로그아웃
+					</button>
+				</form>
+			</c:otherwise>
+		</c:choose>
 	</div>
-</div>
+</nav>
 
 <c:if test="${sessionScope.locationOn == true}">
 <script>
