@@ -118,9 +118,14 @@ public class UserRepository {
             ps.setTimestamp(9, Timestamp.valueOf(user.getCreatedAt().atStartOfDay()));
             ps.executeUpdate();
             return true;
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (java.sql.SQLIntegrityConstraintViolationException e) {
+            // 진짜 아이디/이메일 중복인 경우만 false (호출부에서 "이미 사용 중" 메시지로 처리)
             return false;
+        } catch (Exception e) {
+            // 그 외 원인(연결 문제, 컬럼 길이 초과 등)까지 전부 "중복"으로 뭉뚱그리면
+            // 진짜 원인을 알 수 없게 되므로, 로그를 남기고 그대로 위로 던짐
+            e.printStackTrace();
+            throw new RuntimeException("회원가입 처리 중 오류", e);
         }
     }
 }
