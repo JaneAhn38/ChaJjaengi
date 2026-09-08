@@ -27,6 +27,11 @@ public class DBUtil {
         config.setConnectionTimeout(10_000);
         config.setIdleTimeout(300_000);
         config.setMaxLifetime(1_800_000);
+        // 기본값(1)이면 시작 시 연결을 하나 검증하다 실패하는 순간 static 블록이
+        // 통째로 실패해서 DBUtil 클래스 자체가 그 뒤로 영영 못 쓰게 됩니다
+        // (NoClassDefFoundError). 실패해도 조용히 넘어가고, 연결은 실제 요청이
+        // 들어올 때 하나씩 시도하도록 둡니다.
+        config.setInitializationFailTimeout(-1);
         dataSource = new HikariDataSource(config);
     }
 
