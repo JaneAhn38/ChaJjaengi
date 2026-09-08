@@ -43,7 +43,6 @@
     <div class="row align-items-md-stretch">
       <div class="text-end">
         <a href="?language=ko">Korean</a> | <a href="?language=en">English</a>
-        <a href="../member/logoutMember.jsp" class="btn btn-sm btn-success pull right">logout</a>
       </div>
 
       <form name="newApplicationSpot" action="${pageContext.request.contextPath}/processAddSpot" method="post"
@@ -88,6 +87,14 @@
             <input type="radio" name="category" value="3"> 쇼핑
             <input type="radio" name="category" value="4"> 관광/랜드마크
             <input type="radio" name="category" value="5"> 문화/공연
+          </div>
+        </div>
+
+        <div class="mb-3 row">
+          <label class="col-sm-2"><fmt:message key="applicationReason" /></label>
+          <div class="col-sm-3">
+              <textarea name="application_reason" id="application_reason" cols="10" rows="2"
+                        class="form-control" placeholder="이 장소를 등록하고 싶은 이유를 적어주세요"></textarea>
           </div>
         </div>
 

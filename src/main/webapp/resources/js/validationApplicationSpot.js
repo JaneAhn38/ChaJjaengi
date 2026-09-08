@@ -4,6 +4,7 @@ function CheckAddSpot() {
     const location    = form["spot_location"].value.trim();
     const description = form["spot_description"].value.trim();
     const category    = form.querySelector('input[name="category"]:checked');
+    const reason      = form["application_reason"].value.trim();
 
     if (!spotName) {
         showAlert("장소명을 입력해주세요.");
@@ -51,6 +52,11 @@ function CheckAddSpot() {
 
     if (!category) {
         showAlert("카테고리를 선택해주세요.");
+        return false;
+    }
+
+    if (!reason) {
+        showAlert("장소 등록 이유를 입력해주세요.");
         return false;
     }
 

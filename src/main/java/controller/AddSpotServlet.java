@@ -31,11 +31,12 @@ public class AddSpotServlet extends HttpServlet {
             return;
         }
 
-        String spotName        = request.getParameter("spotName");
-        String spotLocation    = request.getParameter("spot_location");
-        String spotDescription = request.getParameter("spot_description");
-        String category        = request.getParameter("category");
-        String spotAddress     = request.getParameter("spot_address");
+        String spotName          = request.getParameter("spotName");
+        String spotLocation      = request.getParameter("spot_location");
+        String spotDescription   = request.getParameter("spot_description");
+        String category          = request.getParameter("category");
+        String spotAddress       = request.getParameter("spot_address");
+        String applicationReason = request.getParameter("application_reason");
 
         if (spotName == null || spotName.isBlank()) {
             response.sendRedirect(request.getContextPath() + "/spotApplication/spotAddApplication.jsp?error=empty");
@@ -91,6 +92,7 @@ public class AddSpotServlet extends HttpServlet {
         app.setSpotLongitude(longitude);
         app.setSpotDescription(spotDescription);
         app.setSpotCategory(category != null ? category : "1");
+        app.setApplicationReason(applicationReason != null ? applicationReason : "");
         app.setSpotImage(savedFileName);
         app.setSpotAddress(spotAddress != null ? spotAddress : "");
 

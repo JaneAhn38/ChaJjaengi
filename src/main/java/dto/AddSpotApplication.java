@@ -16,6 +16,10 @@ public class AddSpotApplication implements Serializable{
     private String spotImage;         // spot_image
     private String spotAddress;       // added_spot_address
     private String rejectReason;      // reject_reason
+    private String applicationReason; // application_reason
+
+    public String getApplicationReason() { return applicationReason; }
+    public void setApplicationReason(String applicationReason) { this.applicationReason = applicationReason; }
 
     public String getRejectReason() { return rejectReason; }
     public void setRejectReason(String rejectReason) { this.rejectReason = rejectReason; }

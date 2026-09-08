@@ -43,8 +43,8 @@ public class AddSpotApplicationRepository {
         String sql = """
         INSERT INTO add_spot_applications
         (user_id, spot_name, spot_latitude, spot_longitude,
-         spot_description, add_status, spot_category, spot_image, added_spot_address)
-        VALUES (?, ?, ?, ?, ?, 'PENDING', ?, ?, ?)
+         spot_description, add_status, spot_category, application_reason, spot_image, added_spot_address)
+        VALUES (?, ?, ?, ?, ?, 'PENDING', ?, ?, ?, ?)
     """;
 
         try (Connection conn = DBUtil.getConnection();
@@ -56,8 +56,9 @@ public class AddSpotApplicationRepository {
             pstmt.setDouble(4, app.getSpotLongitude());
             pstmt.setString(5, app.getSpotDescription());
             pstmt.setString(6, app.getSpotCategory() != null ? app.getSpotCategory() : "cafe");
-            pstmt.setString(7, app.getSpotImage() != null ? app.getSpotImage() : "");
-            pstmt.setString(8, app.getSpotAddress() != null ? app.getSpotAddress() : "");
+            pstmt.setString(7, app.getApplicationReason() != null ? app.getApplicationReason() : "");
+            pstmt.setString(8, app.getSpotImage() != null ? app.getSpotImage() : "");
+            pstmt.setString(9, app.getSpotAddress() != null ? app.getSpotAddress() : "");
 
             pstmt.executeUpdate();
         } catch (Exception e) {
@@ -83,6 +84,7 @@ public class AddSpotApplicationRepository {
                 app.setSpotDescription(rs.getString("spot_description"));
                 app.setStatus(rs.getString("add_status"));
                 app.setSpotCategory(rs.getString("spot_category"));
+                app.setApplicationReason(rs.getString("application_reason"));
                 app.setSpotImage(rs.getString("spot_image"));
                 app.setSpotAddress(rs.getString("added_spot_address"));
                 Timestamp ts = rs.getTimestamp("add_spot_created_at");
@@ -148,6 +150,7 @@ public class AddSpotApplicationRepository {
                     app.setSpotName(rs.getString("spot_name"));
                     app.setSpotDescription(rs.getString("spot_description"));
                     app.setSpotCategory(rs.getString("spot_category"));
+                    app.setApplicationReason(rs.getString("application_reason"));
                     app.setSpotLatitude(rs.getDouble("spot_latitude"));
                     app.setSpotLongitude(rs.getDouble("spot_longitude"));
                     app.setStatus(rs.getString("add_status"));

@@ -172,6 +172,7 @@ CREATE TABLE add_spot_applications
     add_status          VARCHAR(20) DEFAULT 'PENDING',         -- 승인 여부
     add_spot_created_at TIMESTAMP   DEFAULT CURRENT_TIMESTAMP, -- 폼 제출 일자
     spot_category       VARCHAR(20) DEFAULT 'cafe',            -- 장소 카테고리
+    application_reason  VARCHAR(500) NOT NULL DEFAULT '',      -- 등록 신청 이유
     spot_image          VARCHAR(100),                          -- 장소 사진
     added_spot_address  VARCHAR(100),                          -- 장소 주소
     reject_reason       VARCHAR(300),                          -- 거절 사유
