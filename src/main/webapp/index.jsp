@@ -76,14 +76,17 @@
 		}
 		.nav-signup-btn:hover { background-color: #D62F26; color: white;}
 
-		/* 2. 상단 통계 위젯 영역 (Figma 재현) */
-		.stats-section {
-			padding: 30px 0;
+		/* 2. 통계 위젯 (인기 스팟 카드 밑에 2x2로 배치) */
+		.stats-grid-2x2 {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 16px;
+			margin-top: 16px;
 		}
 		.stat-card {
 			background-color: var(--figma-card-bg);
 			border-radius: 20px;
-			padding: 25px;
+			padding: 18px;
 			text-align: center;
 			border: 1px solid var(--figma-border);
 			box-shadow: 0 4px 15px rgba(0,0,0,0.03);
@@ -227,38 +230,28 @@
 					<div class="figma-section-subtitle" style="margin:10px 0 0;">불러오는 중...</div>
 				</div>
 			</div>
-		</div>
-	</div>
-</div>
 
-<div class="container-fluid stats-section px-5">
-	<div class="row">
-		<div class="col-md-3">
-			<div class="stat-card">
-				<i class="fa-solid fa-thumbtack stat-icon"></i>
-				<div class="stat-label">등록된 스팟</div>
-				<div class="stat-value"><span id="statSpotCount">-</span><span class="stat-unit">곳</span></div>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="stat-card">
-				<i class="fa-solid fa-users stat-icon"></i>
-				<div class="stat-label">지금 활동중</div>
-				<div class="stat-value"><span id="statActiveCount">-</span><span class="stat-unit">명</span></div>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="stat-card">
-				<i class="fa-solid fa-fire stat-icon"></i>
-				<div class="stat-label">가장 핫한 곳</div>
-				<div class="stat-value" id="statHotSpot" style="font-size:1.1rem; padding-top:5px;">-</div>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="stat-card">
-				<i class="fa-solid fa-chart-bar stat-icon"></i>
-				<div class="stat-label">평균 인원</div>
-				<div class="stat-value"><span id="statAvgCount">-</span><span class="stat-unit">명</span></div>
+			<div class="stats-grid-2x2">
+				<div class="stat-card">
+					<i class="fa-solid fa-thumbtack stat-icon"></i>
+					<div class="stat-label">등록된 스팟</div>
+					<div class="stat-value"><span id="statSpotCount">-</span><span class="stat-unit">곳</span></div>
+				</div>
+				<div class="stat-card">
+					<i class="fa-solid fa-users stat-icon"></i>
+					<div class="stat-label">지금 활동중</div>
+					<div class="stat-value"><span id="statActiveCount">-</span><span class="stat-unit">명</span></div>
+				</div>
+				<div class="stat-card">
+					<i class="fa-solid fa-fire stat-icon"></i>
+					<div class="stat-label">가장 핫한 곳</div>
+					<div class="stat-value" id="statHotSpot" style="font-size:1rem; padding-top:5px;">-</div>
+				</div>
+				<div class="stat-card">
+					<i class="fa-solid fa-chart-bar stat-icon"></i>
+					<div class="stat-label">평균 인원</div>
+					<div class="stat-value"><span id="statAvgCount">-</span><span class="stat-unit">명</span></div>
+				</div>
 			</div>
 		</div>
 	</div>
