@@ -29,7 +29,7 @@
         return;
     }
 %>
-<fmt:setLocale value="ko" />
+<fmt:setLocale value="${empty param.language ? 'ko' : param.language}" />
 <fmt:bundle basename="bundle.message">
     <div class="container py-4">
         <%@ include file="../common/menu.jsp"%>
