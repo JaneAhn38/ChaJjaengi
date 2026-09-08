@@ -1,9 +1,7 @@
 package util;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBUtil {
@@ -13,28 +11,6 @@ public class DBUtil {
     private static final String USER = env("DB_USER", "root");
     private static final String PASSWORD = env("DB_PASSWORD", "1234");
 
-    // 매 요청마다 새로 연결(+TLS 핸드셰이크)을 맺으면 원격 DB(특히 클라우드) 기준으로
-    // 눈에 띄게 느려지므로, 커넥션 풀(HikariCP)로 연결을 재사용합니다.
-    private static final HikariDataSource dataSource;
-
-    static {
-        HikariConfig config = new HikariConfig();
-        config.setJdbcUrl(URL);
-        config.setUsername(USER);
-        config.setPassword(PASSWORD);
-        config.setMaximumPoolSize(5);   // 무료 티어 DB의 최대 연결 수 제한을 고려한 보수적인 값
-        config.setMinimumIdle(1);       // 요청이 없을 때도 최소 1개는 미리 연결해둠 (첫 요청 지연 완화)
-        config.setConnectionTimeout(10_000);
-        config.setIdleTimeout(300_000);
-        config.setMaxLifetime(1_800_000);
-        // 기본값(1)이면 시작 시 연결을 하나 검증하다 실패하는 순간 static 블록이
-        // 통째로 실패해서 DBUtil 클래스 자체가 그 뒤로 영영 못 쓰게 됩니다
-        // (NoClassDefFoundError). 실패해도 조용히 넘어가고, 연결은 실제 요청이
-        // 들어올 때 하나씩 시도하도록 둡니다.
-        config.setInitializationFailTimeout(-1);
-        dataSource = new HikariDataSource(config);
-    }
-
     private static String env(String key, String fallback) {
         String prop = System.getProperty(key);
         if (prop != null && !prop.isBlank()) return prop;
@@ -43,7 +19,7 @@ public class DBUtil {
     }
 
     public static Connection getConnection() throws SQLException {
-        return dataSource.getConnection();
+        return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
     public static void close(AutoCloseable... resources) {
