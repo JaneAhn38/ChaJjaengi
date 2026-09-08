@@ -32,7 +32,6 @@
         <% } else if ("birth".equals(error)) { %>생년월일을 올바르게 입력해주세요.
         <% } else if ("email".equals(error)) { %>이메일을 올바르게 입력해주세요.
         <% } else if ("dup".equals(error)) { %>이미 사용 중인 아이디 또는 이메일입니다.
-        <% } else if ("debug".equals(error)) { %>(임시 디버그) <%= request.getParameter("debugMsg") %>
         <% } %>
     </div>
     <% } %>
