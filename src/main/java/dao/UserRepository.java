@@ -44,7 +44,14 @@ public class UserRepository {
         if (id == null || password == null) return null;
         User user = getUserById(id);
         if (user == null) return null;
-        return PasswordUtil.verify(password, user.getUserPassword()) ? user : null;
+        try {
+            return PasswordUtil.verify(password, user.getUserPassword()) ? user : null;
+        } catch (Exception e) {
+            // 저장된 해시 형식이 깨졌거나(과거 마이그레이션 이전 데이터 등) 암호화
+            // 알고리즘 관련 문제가 생겨도 500 에러로 죽지 않고 로그인 실패로 처리
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static void updateUser(User user) {
