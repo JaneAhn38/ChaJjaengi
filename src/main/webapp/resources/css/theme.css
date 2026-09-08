@@ -31,7 +31,7 @@ body {
 }
 /* 툴바에 가려지지 않도록 본문 하단 여백 확보 (menu.jsp를 통해 전 페이지에 적용됨) */
 body {
-    padding-bottom: 110px;
+    padding-bottom: 150px; /* 좁은 화면에서 하단 메뉴가 2줄로 접힐 때도 안전하게 */
 }
 
 /* ---------- 공통 네비게이션 (menu.jsp / index.jsp 공용, 1번째 줄은 상단 고정) ---------- */
@@ -208,7 +208,7 @@ body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     padding: 40px;
     max-width: 480px;
-    margin: 0 auto 60px;
+    margin: 0 auto 140px;
 }
 .auth-card.auth-card-wide {
     max-width: 720px;

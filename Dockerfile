@@ -10,7 +10,10 @@ RUN mkdir -p /build/classes && \
     find ./src -name "*.java" > sources.txt && \
     javac -encoding UTF-8 -d /build/classes \
         -cp "$(find ./lib -name '*.jar' | tr '\n' ':')" \
-        @sources.txt
+        @sources.txt && \
+    # javac는 .java만 컴파일하므로, .properties 같은 리소스 파일은 패키지
+    # 구조를 유지한 채로 직접 복사해줘야 클래스패스에서 찾을 수 있습니다.
+    (cd src && find . -type f -not -name "*.java" -exec cp --parents {} /build/classes/ \;)
 
 # ---- 2단계: Tomcat에 배포 ----
 FROM tomcat:10.1-jdk21-temurin
