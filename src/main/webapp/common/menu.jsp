@@ -46,22 +46,24 @@
 				<i class="fa-solid fa-comments"></i> 커뮤니티</a>
 
 			<c:if test="${not empty sessionScope.userId}">
-				<a class="nav-link-item" href="${pageContext.request.contextPath}/wishlist/wishlist.jsp">
-					<i class="fa-solid fa-heart"></i> 찜목록</a>
+				<c:if test="${sessionScope.userRole != 'ADMIN'}">
+					<a class="nav-link-item" href="${pageContext.request.contextPath}/wishlist/wishlist.jsp">
+						<i class="fa-solid fa-heart"></i> 찜목록</a>
 
-				<div class="mypage-dropdown" tabindex="0">
-					<span class="mypage-dropdown-toggle">
-						<i class="fa-solid fa-user"></i> 마이페이지 <i class="fa-solid fa-chevron-up" style="font-size:0.7em;"></i>
-					</span>
-					<div class="mypage-dropdown-menu">
-						<a href="${pageContext.request.contextPath}/profile/myProfile.jsp">
-							<i class="fa-solid fa-user"></i> 내 프로필</a>
-						<a href="<c:url value="/member/updateMember.jsp"/>">
-							<i class="fa-solid fa-pen-to-square"></i> 개인정보 수정</a>
-						<a href="${pageContext.request.contextPath}/spotApplication/myApplications.jsp">
-							<i class="fa-solid fa-clipboard-list"></i> 나의 신청 내역</a>
+					<div class="mypage-dropdown" tabindex="0">
+						<span class="mypage-dropdown-toggle">
+							<i class="fa-solid fa-user"></i> 마이페이지 <i class="fa-solid fa-chevron-up" style="font-size:0.7em;"></i>
+						</span>
+						<div class="mypage-dropdown-menu">
+							<a href="${pageContext.request.contextPath}/profile/myProfile.jsp">
+								<i class="fa-solid fa-user"></i> 내 프로필</a>
+							<a href="<c:url value="/member/updateMember.jsp"/>">
+								<i class="fa-solid fa-pen-to-square"></i> 개인정보 수정</a>
+							<a href="${pageContext.request.contextPath}/spotApplication/myApplications.jsp">
+								<i class="fa-solid fa-clipboard-list"></i> 나의 신청 내역</a>
+						</div>
 					</div>
-				</div>
+				</c:if>
 
 				<c:if test="${sessionScope.userRole == 'ADMIN'}">
 					<a class="nav-link-item" style="color:#FFD24C;" href="${pageContext.request.contextPath}/admin/spotApplicationAdmin.jsp">
