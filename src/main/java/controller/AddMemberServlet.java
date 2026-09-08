@@ -98,7 +98,16 @@ public class AddMemberServlet extends HttpServlet {
         user.setUserBirth(java.time.LocalDate.parse(birth));
         user.setCreatedAt(java.time.LocalDate.now());
 
-        boolean success = UserRepository.addUser(user);
+        boolean success;
+        try {
+            success = UserRepository.addUser(user);
+        } catch (Exception e) {
+            // TODO: 원인 파악되면 이 임시 디버그 출력은 제거할 것
+            response.sendRedirect(request.getContextPath()
+                    + "/member/addMember.jsp?error=debug&debugMsg="
+                    + java.net.URLEncoder.encode(String.valueOf(e.getMessage()), "UTF-8"));
+            return;
+        }
 
         if (!success) {
             // 아이디 또는 이메일 중복
