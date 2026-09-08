@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="../resources/css/bootstrap.min.css" />
   <link rel="stylesheet" href="../resources/css/theme.css" />
   <script src="../resources/js/customAlert.js"></script>
+  <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <script src="../resources/js/validationApplicationSpot.js"></script>
 </head>
 <body>
@@ -56,26 +57,18 @@
         </div>
 
         <div class="mb-3 row">
-          <label class="col-sm-2"><fmt:message key="spotLocation" /></label>
-          <div class="col-sm-3">
-              <textarea name="spot_location" id="spot_location" cols="10" rows="2"
-                        class="form-control" placeholder="상품 위치 지도에서 찝으면 자동으로 입력"></textarea>
-          </div>
-        </div>
-
-        <div class="mb-3 row">
-          <label class="col-sm-2">주소</label>
-          <div class="col-sm-3">
-            <input type="text" name="spot_address" id="spot_address" class="form-control"
-                   placeholder="장소 주소 (선택)">
-          </div>
-        </div>
-
-        <div class="mb-3 row">
-          <label class="col-sm-2"><fmt:message key="spotDescription" /></label>
-          <div class="col-sm-3">
-              <textarea name="spot_description" id="spot_description" cols="10" rows="2"
-                        class="form-control" placeholder="10자 이상 적어주세요"></textarea>
+          <label class="col-sm-2"><fmt:message key="address" /></label>
+          <div class="col-sm-5">
+            <div class="d-flex gap-2">
+              <input type="text" id="spotAddressBase" class="form-control" readonly
+                     placeholder="<fmt:message key='addressSearchPlaceholder' />">
+              <button type="button" class="btn btn-outline-secondary text-nowrap" onclick="searchAddress()">
+                <fmt:message key="addressSearchButton" />
+              </button>
+            </div>
+            <input type="text" id="spotAddressDetail" class="form-control mt-2"
+                   placeholder="<fmt:message key='addressDetailPlaceholder' />">
+            <input type="hidden" name="spot_address" id="spot_address">
           </div>
         </div>
 
@@ -117,6 +110,16 @@
   </div>
 </fmt:bundle>
 <jsp:include page="../common/footer.jsp" />
+<script>
+  function searchAddress() {
+    new daum.Postcode({
+      oncomplete: function(data) {
+        document.getElementById('spotAddressBase').value = data.roadAddress || data.jibunAddress;
+        document.getElementById('spotAddressDetail').focus();
+      }
+    }).open();
+  }
+</script>
 </body>
 </html>
 

@@ -32,8 +32,6 @@ public class AddSpotServlet extends HttpServlet {
         }
 
         String spotName          = request.getParameter("spotName");
-        String spotLocation      = request.getParameter("spot_location");
-        String spotDescription   = request.getParameter("spot_description");
         String category          = request.getParameter("category");
         String spotAddress       = request.getParameter("spot_address");
         String applicationReason = request.getParameter("application_reason");
@@ -46,28 +44,9 @@ public class AddSpotServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/spotApplication/spotAddApplication.jsp?error=toolong");
             return;
         }
-        if (spotDescription != null && spotDescription.length() > 1000) {
-            response.sendRedirect(request.getContextPath() + "/spotApplication/spotAddApplication.jsp?error=toolong");
-            return;
-        }
 
+        // 위도/경도는 더 이상 신청 단계에서 입력받지 않음(주소 검색으로 대체) - 승인 시 관리자가 지정
         double latitude = 0.0, longitude = 0.0;
-        if (spotLocation != null && spotLocation.contains(",")) {
-            try {
-                String[] parts = spotLocation.split(",");
-                if (parts.length < 2) {
-                    response.sendRedirect(request.getContextPath()
-                            + "/spotApplication/spotAddApplication.jsp?error=location");
-                    return;
-                }
-                latitude  = Double.parseDouble(parts[0].trim());
-                longitude = Double.parseDouble(parts[1].trim());
-            } catch (NumberFormatException e) {
-                response.sendRedirect(request.getContextPath()
-                        + "/spotApplication/spotAddApplication.jsp?error=location");
-                return;
-            }
-        }
 
         // 이미지 저장 (확장자 검증 + UUID 파일명)
         String savedFileName = "";
@@ -90,7 +69,7 @@ public class AddSpotServlet extends HttpServlet {
         app.setSpotName(spotName);
         app.setSpotLatitude(latitude);
         app.setSpotLongitude(longitude);
-        app.setSpotDescription(spotDescription);
+        app.setSpotDescription(""); // 신청 단계에서는 더 이상 입력받지 않음 (DB NOT NULL 제약 때문에 빈 문자열)
         app.setSpotCategory(category != null ? category : "1");
         app.setApplicationReason(applicationReason != null ? applicationReason : "");
         app.setSpotImage(savedFileName);
