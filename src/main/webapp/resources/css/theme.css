@@ -88,8 +88,15 @@ body {
     gap: 6px;
 }
 .nav-signup-btn:hover { background-color: var(--figma-point-red-hover); color: white; }
-.nav-logout-btn { color: white; font-weight: 700; }
-.nav-logout-btn:hover { color: var(--figma-point-red); }
+.nav-logout-btn {
+    background-color: white;
+    color: #1C1C1E;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+}
+.nav-logout-btn:hover { background-color: #F2F2F7; color: #1C1C1E; }
 
 /* 마이페이지 드롭다운 (JS 없이 hover/focus로 동작) */
 .mypage-dropdown {

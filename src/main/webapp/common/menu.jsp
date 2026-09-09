@@ -16,13 +16,13 @@
 		<c:if test="${sessionScope.userRole == 'ADMIN'}">
 			<span style="color:#FFD24C; font-weight:700;">관리자</span>
 		</c:if>
+	</div>
+
+	<div class="nav-right">
 		<a class="nav-link-item" href="<c:url value="/spot/spots.jsp"/>">
 			<i class="fa-solid fa-location-dot"></i> 스팟 보기</a>
 		<a class="nav-link-item" href="${pageContext.request.contextPath}/community/board.jsp">
 			<i class="fa-solid fa-comments"></i> 커뮤니티</a>
-	</div>
-
-	<div class="nav-right">
 		<c:choose>
 			<c:when test="${empty sessionScope.userId}">
 				<a class="nav-link-item" href="<c:url value="/member/loginMember.jsp"/>">
@@ -59,7 +59,7 @@
 				<form action="${pageContext.request.contextPath}/processLogoutMember" method="post" class="d-inline m-0 p-0">
 					<input type="hidden" name="_csrf" value="<%=util.CsrfUtil.getOrCreateToken(session)%>">
 					<button type="submit" class="nav-link-item nav-logout-btn">
-						<i class="fa-solid fa-circle-xmark"></i> 로그아웃
+						로그아웃 <i class="fa-solid fa-right-from-bracket"></i>
 					</button>
 				</form>
 			</c:otherwise>

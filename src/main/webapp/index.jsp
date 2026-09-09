@@ -67,8 +67,15 @@
 		.nav-link-item { text-decoration: none; color: inherit; transition: 0.2s; cursor: pointer;}
 		.nav-link-item:hover { color: white; }
 		.nav-user-badge { color: var(--figma-point-red); font-weight: 700; }
-		.nav-logout-btn { color: white; font-weight: 700; }
-		.nav-logout-btn:hover { color: var(--figma-point-red); }
+		.nav-logout-btn {
+			background-color: white;
+			color: #1C1C1E;
+			border: 1px solid rgba(255,255,255,0.15);
+			padding: 8px 16px;
+			border-radius: 999px;
+			font-weight: 700;
+		}
+		.nav-logout-btn:hover { background-color: #F2F2F7; color: #1C1C1E; }
 		.nav-signup-btn {
 			background-color: var(--figma-point-red);
 			color: white;
@@ -203,14 +210,14 @@
 	<div class="nav-left">
 		<a href="${pageContext.request.contextPath}/" class="home-icon-box"><i class="fa-solid fa-home"></i></a>
 		<a href="${pageContext.request.contextPath}/" class="nav-home-text">Home</a>
-		<a href="${pageContext.request.contextPath}/spot/spots.jsp" class="nav-link-item"><i class="fa-solid fa-location-dot"></i> 스팟 보기</a>
-		<a href="${pageContext.request.contextPath}/community/board.jsp" class="nav-link-item"><i class="fa-solid fa-comments"></i> 커뮤니티</a>
 	</div>
 	<div class="nav-center">
 		<h1>차쟁이</h1>
 		<h2>AnyoneHere?</h2>
 	</div>
 	<div class="nav-right">
+		<a href="${pageContext.request.contextPath}/spot/spots.jsp" class="nav-link-item"><i class="fa-solid fa-location-dot"></i> 스팟 보기</a>
+		<a href="${pageContext.request.contextPath}/community/board.jsp" class="nav-link-item"><i class="fa-solid fa-comments"></i> 커뮤니티</a>
 		<c:choose>
 			<c:when test="${empty sessionScope.userId}">
 				<a href="${pageContext.request.contextPath}/member/loginMember.jsp" class="nav-link-item"><i class="fa-solid fa-sign-in-alt"></i> 로그인</a>
@@ -221,7 +228,7 @@
 				<form action="${pageContext.request.contextPath}/processLogoutMember" method="post" class="d-inline m-0 p-0">
 					<input type="hidden" name="_csrf" value="<%=util.CsrfUtil.getOrCreateToken(session)%>">
 					<button type="submit" class="nav-link-item nav-logout-btn">
-						<i class="fa-solid fa-circle-xmark"></i> 로그아웃
+						로그아웃 <i class="fa-solid fa-right-from-bracket"></i>
 					</button>
 				</form>
 			</c:otherwise>
