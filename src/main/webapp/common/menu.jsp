@@ -72,13 +72,18 @@
     var ctx = '${pageContext.request.contextPath}';
 
     function sendLocation() {
-        navigator.geolocation.getCurrentPosition(function(pos) {
-            var body = new URLSearchParams();
-            body.append('latitude',  pos.coords.latitude);
-            body.append('longitude', pos.coords.longitude);
-            body.append('_csrf',     csrfToken);
-            fetch(ctx + '/updateLocation', { method: 'POST', body: body });
-        });
+        navigator.geolocation.getCurrentPosition(
+            function(pos) {
+                var body = new URLSearchParams();
+                body.append('latitude',  pos.coords.latitude);
+                body.append('longitude', pos.coords.longitude);
+                body.append('_csrf',     csrfToken);
+                fetch(ctx + '/updateLocation', { method: 'POST', body: body });
+            },
+            function(err) {
+                console.warn('위치 정보를 가져오지 못했습니다:', err.message);
+            }
+        );
     }
 
     sendLocation();

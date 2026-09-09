@@ -623,5 +623,41 @@
 				}
 			});
 </script>
+
+<c:if test="${sessionScope.locationOn == true}">
+<script>
+(function() {
+    if (!navigator.geolocation) return;
+    var csrfToken = '<%=util.CsrfUtil.getOrCreateToken(session)%>';
+    var ctx = '${pageContext.request.contextPath}';
+
+    function sendLocation() {
+        navigator.geolocation.getCurrentPosition(
+            function(pos) {
+                var body = new URLSearchParams();
+                body.append('latitude',  pos.coords.latitude);
+                body.append('longitude', pos.coords.longitude);
+                body.append('_csrf',     csrfToken);
+                fetch(ctx + '/updateLocation', { method: 'POST', body: body });
+            },
+            function(err) {
+                console.warn('위치 정보를 가져오지 못했습니다:', err.message);
+            }
+        );
+    }
+
+    sendLocation();
+    setInterval(sendLocation, 5 * 60 * 1000);
+
+    window.addEventListener('beforeunload', function() {
+        var data = new URLSearchParams();
+        data.append('_csrf', csrfToken);
+        data.append('state', 'off');
+        navigator.sendBeacon(ctx + '/toggleLocation',
+            new Blob([data.toString()], { type: 'application/x-www-form-urlencoded' }));
+    });
+})();
+</script>
+</c:if>
 </body>
 </html>
