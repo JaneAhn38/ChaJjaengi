@@ -210,6 +210,9 @@
 	<div class="nav-left">
 		<a href="${pageContext.request.contextPath}/" class="home-icon-box"><i class="fa-solid fa-home"></i></a>
 		<a href="${pageContext.request.contextPath}/" class="nav-home-text">Home</a>
+		<c:if test="${sessionScope.userRole == 'ADMIN'}">
+			<span style="color:#FFD24C; font-weight:700;">관리자 모드</span>
+		</c:if>
 	</div>
 	<div class="nav-center">
 		<h1>차쟁이</h1>

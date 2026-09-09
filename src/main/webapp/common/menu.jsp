@@ -14,7 +14,7 @@
 		<a href="<c:url value="/index.jsp"/>" class="home-icon-box"><i class="fa-solid fa-house"></i></a>
 		<a href="<c:url value="/index.jsp"/>" class="nav-home-text">차쟁이</a>
 		<c:if test="${sessionScope.userRole == 'ADMIN'}">
-			<span style="color:#FFD24C; font-weight:700;">관리자</span>
+			<span style="color:#FFD24C; font-weight:700;">관리자 모드</span>
 		</c:if>
 	</div>
 
