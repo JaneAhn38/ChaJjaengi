@@ -211,7 +211,7 @@
 		<a href="${pageContext.request.contextPath}/" class="home-icon-box"><i class="fa-solid fa-home"></i></a>
 		<a href="${pageContext.request.contextPath}/" class="nav-home-text">Home</a>
 		<c:if test="${sessionScope.userRole == 'ADMIN'}">
-			<span style="color:#FFD24C; font-weight:700;">관리자 모드</span>
+			<span style="color:#FFD24C; font-weight:700;"><i class="fa-solid fa-shield-halved"></i> 관리자 모드</span>
 		</c:if>
 	</div>
 	<div class="nav-center">
@@ -227,6 +227,10 @@
 				<a href="${pageContext.request.contextPath}/member/addMember.jsp" class="nav-signup-btn"><i class="fa-solid fa-user-plus"></i> 회원가입</a>
 			</c:when>
 			<c:otherwise>
+				<c:if test="${sessionScope.userRole == 'ADMIN'}">
+					<a class="nav-link-item" style="color:#FFD24C;" href="${pageContext.request.contextPath}/admin/spotApplicationAdmin.jsp">
+						<i class="fa-solid fa-shield-halved"></i> 관리자</a>
+				</c:if>
 				<span class="nav-user-badge">[<c:out value="${sessionScope.userId}"/>님]</span>
 				<form action="${pageContext.request.contextPath}/processLogoutMember" method="post" class="d-inline m-0 p-0">
 					<input type="hidden" name="_csrf" value="<%=util.CsrfUtil.getOrCreateToken(session)%>">
