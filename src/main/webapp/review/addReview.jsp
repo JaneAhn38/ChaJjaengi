@@ -8,7 +8,7 @@
     <title>AnyoneHere - 장소 리뷰 작성</title>
     <link rel="stylesheet" href="../resources/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../resources/css/theme.css" />
-    <script src="../resources/js/customAlert.js"></script>
+    <script src="../resources/js/customAlert.js?v=2"></script>
     <script type="text/javascript" src="../resources/js/validationReviewSpot.js"></script>
 </head>
 <body>

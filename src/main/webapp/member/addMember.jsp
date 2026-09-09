@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <link rel="stylesheet" href="../resources/css/theme.css" />
     <title>회원가입 | 차쟁이</title>
-	<script src="../resources/js/customAlert.js"></script>
+	<script src="../resources/js/customAlert.js?v=2"></script>
 	<script src="../resources/js/validationSignIn.js"></script>
 </head>
 <body>

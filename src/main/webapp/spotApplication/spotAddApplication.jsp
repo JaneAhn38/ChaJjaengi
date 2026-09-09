@@ -8,7 +8,7 @@
   <title>AnyoneHere-AddSpotApplication</title>
   <link rel="stylesheet" href="../resources/css/bootstrap.min.css" />
   <link rel="stylesheet" href="../resources/css/theme.css" />
-  <script src="../resources/js/customAlert.js"></script>
+  <script src="../resources/js/customAlert.js?v=2"></script>
   <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <script src="../resources/js/validationApplicationSpot.js"></script>
 </head>

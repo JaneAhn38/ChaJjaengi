@@ -12,7 +12,7 @@
     <title>AnyoneHere - 나의 신청 내역</title>
     <link rel="stylesheet" href="../resources/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="../resources/css/theme.css"/>
-    <script src="../resources/js/customAlert.js"></script>
+    <script src="../resources/js/customAlert.js?v=2"></script>
     <style>
         .badge-PENDING  { background-color: #ffc107; color: #000; }
         .badge-APPROVED { background-color: #198754; color: #fff; }

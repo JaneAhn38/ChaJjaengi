@@ -12,7 +12,7 @@
     <title>AnyoneHere - 내 프로필</title>
     <link rel="stylesheet" href="../resources/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="../resources/css/theme.css"/>
-    <script src="../resources/js/customAlert.js"></script>
+    <script src="../resources/js/customAlert.js?v=2"></script>
     <style>
         .profile-img {
             width: 120px; height: 120px;

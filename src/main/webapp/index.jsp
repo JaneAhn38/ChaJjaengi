@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-	<script src="resources/js/customAlert.js"></script>
+	<script src="resources/js/customAlert.js?v=2"></script>
 
 	<title>차쟁이 | AnyoneHere?</title>
 	<style>
@@ -264,7 +264,8 @@
 		<a href="${pageContext.request.contextPath}/" class="home-icon-box"><i class="fa-solid fa-home"></i></a>
 		<a href="${pageContext.request.contextPath}/" class="nav-home-text">Home</a>
 		<c:if test="${sessionScope.userRole == 'ADMIN'}">
-			<span style="color:#FFD24C; font-weight:700;"><i class="fa-solid fa-shield-halved"></i> 관리자 모드</span>
+			<a href="${pageContext.request.contextPath}/admin/spotApplicationAdmin.jsp" style="color:#FFD24C; font-weight:700; text-decoration:none;">
+				<i class="fa-solid fa-shield-halved"></i> 관리자 모드</a>
 		</c:if>
 	</div>
 	<div class="nav-center">
@@ -296,10 +297,6 @@
 								<i class="fa-solid fa-heart"></i> 찜목록</a>
 						</div>
 					</div>
-				</c:if>
-				<c:if test="${sessionScope.userRole == 'ADMIN'}">
-					<a class="nav-link-item" style="color:#FFD24C;" href="${pageContext.request.contextPath}/admin/spotApplicationAdmin.jsp">
-						<i class="fa-solid fa-shield-halved"></i> 관리자</a>
 				</c:if>
 				<span class="nav-user-badge">[<c:out value="${sessionScope.userId}"/>님]</span>
 				<form action="${pageContext.request.contextPath}/processLogoutMember" method="post" class="d-inline m-0 p-0">

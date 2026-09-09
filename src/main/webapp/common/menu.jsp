@@ -6,7 +6,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 <link rel="stylesheet" href="../resources/css/theme.css" />
-<script src="../resources/js/customAlert.js"></script>
+<script src="../resources/js/customAlert.js?v=2"></script>
 
 <!-- 로고 + 메뉴 + 로그인 상태를 한 줄에 (index.jsp와 동일한 스타일) -->
 <nav class="custom-nav d-flex justify-content-between align-items-center flex-wrap">
@@ -14,7 +14,8 @@
 		<a href="<c:url value="/index.jsp"/>" class="home-icon-box"><i class="fa-solid fa-house"></i></a>
 		<a href="<c:url value="/index.jsp"/>" class="nav-home-text">차쟁이</a>
 		<c:if test="${sessionScope.userRole == 'ADMIN'}">
-			<span style="color:#FFD24C; font-weight:700;"><i class="fa-solid fa-shield-halved"></i> 관리자 모드</span>
+			<a href="${pageContext.request.contextPath}/admin/spotApplicationAdmin.jsp" style="color:#FFD24C; font-weight:700; text-decoration:none;">
+				<i class="fa-solid fa-shield-halved"></i> 관리자 모드</a>
 		</c:if>
 	</div>
 
@@ -49,11 +50,6 @@
 								<i class="fa-solid fa-heart"></i> 찜목록</a>
 						</div>
 					</div>
-				</c:if>
-
-				<c:if test="${sessionScope.userRole == 'ADMIN'}">
-					<a class="nav-link-item" style="color:#FFD24C;" href="${pageContext.request.contextPath}/admin/spotApplicationAdmin.jsp">
-						<i class="fa-solid fa-shield-halved"></i> 관리자</a>
 				</c:if>
 
 				<span class="nav-user-badge">[<c:out value="${sessionScope.userId}"/>님]</span>

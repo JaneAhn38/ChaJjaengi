@@ -9,7 +9,7 @@
     <title>AnyoneHere - 프로필 수정</title>
     <link rel="stylesheet" href="../resources/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="../resources/css/theme.css"/>
-    <script src="../resources/js/customAlert.js"></script>
+    <script src="../resources/js/customAlert.js?v=2"></script>
     <style>
         .profile-preview {
             width: 100px; height: 100px;

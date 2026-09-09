@@ -7,7 +7,7 @@
 <head>
 <link rel="stylesheet" href="../resources/css/bootstrap.min.css" />
 <link rel="stylesheet" href="../resources/css/theme.css" />
-<script src="../resources/js/customAlert.js"></script>
+<script src="../resources/js/customAlert.js?v=2"></script>
 <meta charset="UTF-8">
 <title>Wishlist</title>
 </head>
