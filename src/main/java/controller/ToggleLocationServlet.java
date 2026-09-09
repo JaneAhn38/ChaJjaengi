@@ -106,6 +106,21 @@ public class ToggleLocationServlet extends HttpServlet {
             e.printStackTrace();
         }
 
+        // 꺼졌으면 남아있는 현재 위치 기록도 바로 지워서, 유예 시간(10분) 없이
+        // 즉시 스팟 인원 집계에서 빠지도록 함
+        if (!value) clearCurrentLocation(userId);
+
         return value;
+    }
+
+    private void clearCurrentLocation(String userId) {
+        String sql = "DELETE FROM user_current_location WHERE user_id = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, userId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
