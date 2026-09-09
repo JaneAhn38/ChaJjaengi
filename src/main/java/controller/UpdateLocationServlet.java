@@ -48,6 +48,7 @@ public class UpdateLocationServlet extends HttpServlet {
         }
 
         insertLocationLog(userId, latitude, longitude);
+        upsertCurrentLocation(userId, latitude, longitude);
         response.getWriter().write("{\"status\":\"ok\"}");
     }
 
@@ -67,6 +68,27 @@ public class UpdateLocationServlet extends HttpServlet {
 
     private void insertLocationLog(String userId, double latitude, double longitude) {
         String sql = "INSERT INTO location_logs (user_id, latitude, longitude) VALUES (?, ?, ?)";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, userId);
+            ps.setDouble(2, latitude);
+            ps.setDouble(3, longitude);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /** 스팟 반경 계산은 이 "현재 위치" 테이블을 기준으로 하므로, 이력 저장과 별개로 항상 갱신해야 함. */
+    private void upsertCurrentLocation(String userId, double latitude, double longitude) {
+        String sql = """
+            INSERT INTO user_current_location (user_id, current_latitude, current_longitude, updated_at)
+            VALUES (?, ?, ?, NOW())
+            ON DUPLICATE KEY UPDATE
+                current_latitude  = VALUES(current_latitude),
+                current_longitude = VALUES(current_longitude),
+                updated_at        = NOW()
+            """;
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, userId);
