@@ -34,9 +34,6 @@
 			</c:when>
 			<c:otherwise>
 				<c:if test="${sessionScope.userRole != 'ADMIN'}">
-					<a class="nav-link-item" href="${pageContext.request.contextPath}/wishlist/wishlist.jsp">
-						<i class="fa-solid fa-heart"></i> 찜목록</a>
-
 					<div class="mypage-dropdown" tabindex="0">
 						<span class="mypage-dropdown-toggle">
 							<i class="fa-solid fa-user"></i> 마이페이지 <i class="fa-solid fa-chevron-down" style="font-size:0.7em;"></i>
@@ -48,6 +45,8 @@
 								<i class="fa-solid fa-pen-to-square"></i> 개인정보 수정</a>
 							<a href="${pageContext.request.contextPath}/spotApplication/myApplications.jsp">
 								<i class="fa-solid fa-clipboard-list"></i> 나의 신청 내역</a>
+							<a href="${pageContext.request.contextPath}/wishlist/wishlist.jsp">
+								<i class="fa-solid fa-heart"></i> 찜목록</a>
 						</div>
 					</div>
 				</c:if>

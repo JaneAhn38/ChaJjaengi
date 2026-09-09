@@ -87,6 +87,31 @@
 		}
 		.nav-signup-btn:hover { background-color: #D62F26; color: white;}
 
+		/* 마이페이지 드롭다운 (JS 없이 hover/focus로 동작) */
+		.mypage-dropdown { position: relative; }
+		.mypage-dropdown-toggle {
+			text-decoration: none; color: inherit; cursor: pointer;
+			display: inline-flex; align-items: center; gap: 6px;
+			background: none; border: none; font-size: 0.9rem; font-weight: 600;
+		}
+		.mypage-dropdown-toggle:hover { color: white; }
+		.mypage-dropdown-menu {
+			display: none; position: absolute; top: 100%; left: 0; margin-top: 10px;
+			background-color: #FFFFFF; border-radius: 12px;
+			box-shadow: 0 12px 30px rgba(0,0,0,0.18); padding: 8px; min-width: 170px;
+		}
+		.mypage-dropdown-menu::before {
+			content: ""; position: absolute; bottom: 100%; left: 0; right: 0; height: 10px;
+		}
+		.mypage-dropdown:hover .mypage-dropdown-menu,
+		.mypage-dropdown:focus-within .mypage-dropdown-menu { display: block; }
+		.mypage-dropdown-menu a {
+			display: flex; align-items: center; gap: 8px; padding: 9px 12px;
+			border-radius: 8px; color: #1C1C1E; font-size: 0.85rem; font-weight: 600;
+			text-decoration: none; white-space: nowrap;
+		}
+		.mypage-dropdown-menu a:hover { background-color: #F7F7FA; color: var(--figma-point-red); }
+
 		/* 2. 통계 위젯 (인기 스팟 카드 밑에 2x2로 배치) */
 		.stats-grid-2x2 {
 			display: grid;
@@ -227,6 +252,23 @@
 				<a href="${pageContext.request.contextPath}/member/addMember.jsp" class="nav-signup-btn"><i class="fa-solid fa-user-plus"></i> 회원가입</a>
 			</c:when>
 			<c:otherwise>
+				<c:if test="${sessionScope.userRole != 'ADMIN'}">
+					<div class="mypage-dropdown" tabindex="0">
+						<span class="mypage-dropdown-toggle">
+							<i class="fa-solid fa-user"></i> 마이페이지 <i class="fa-solid fa-chevron-down" style="font-size:0.7em;"></i>
+						</span>
+						<div class="mypage-dropdown-menu">
+							<a href="${pageContext.request.contextPath}/profile/myProfile.jsp">
+								<i class="fa-solid fa-user"></i> 내 프로필</a>
+							<a href="${pageContext.request.contextPath}/member/updateMember.jsp">
+								<i class="fa-solid fa-pen-to-square"></i> 개인정보 수정</a>
+							<a href="${pageContext.request.contextPath}/spotApplication/myApplications.jsp">
+								<i class="fa-solid fa-clipboard-list"></i> 나의 신청 내역</a>
+							<a href="${pageContext.request.contextPath}/wishlist/wishlist.jsp">
+								<i class="fa-solid fa-heart"></i> 찜목록</a>
+						</div>
+					</div>
+				</c:if>
 				<c:if test="${sessionScope.userRole == 'ADMIN'}">
 					<a class="nav-link-item" style="color:#FFD24C;" href="${pageContext.request.contextPath}/admin/spotApplicationAdmin.jsp">
 						<i class="fa-solid fa-shield-halved"></i> 관리자</a>
