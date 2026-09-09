@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+	<script src="resources/js/customAlert.js"></script>
 
 	<title>차쟁이 | AnyoneHere?</title>
 	<style>
@@ -111,6 +112,33 @@
 			text-decoration: none; white-space: nowrap;
 		}
 		.mypage-dropdown-menu a:hover { background-color: #F7F7FA; color: var(--figma-point-red); }
+
+		/* 커스텀 알림/확인 팝업 (customAlert.js) */
+		.custom-alert-overlay {
+			position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+			display: flex; align-items: center; justify-content: center;
+			z-index: 3000; padding: 20px;
+		}
+		.custom-alert-box {
+			background: white; border-radius: 20px; padding: 28px 26px 22px;
+			max-width: 360px; width: 100%; box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+			text-align: center;
+		}
+		.custom-alert-message {
+			font-size: 0.95rem; color: #1C1C1E; font-weight: 600;
+			line-height: 1.55; white-space: pre-line; margin-bottom: 20px;
+		}
+		.custom-alert-ok-btn {
+			background: var(--figma-point-red); color: white; border: none;
+			padding: 10px 32px; border-radius: 10px; font-weight: 700;
+			font-size: 0.9rem; cursor: pointer;
+		}
+		.custom-alert-ok-btn:hover { background: #D62F26; }
+		.btn-figma-secondary {
+			background-color: white; border: 1px solid var(--figma-border); color: var(--figma-text-gray);
+			font-weight: 700; border-radius: 10px; padding: 10px 24px; font-size: 0.9rem; cursor: pointer;
+		}
+		.btn-figma-secondary:hover { background-color: #F2F2F7; }
 
 		/* 2. 통계 위젯 (인기 스팟 카드 밑에 2x2로 배치) */
 		.stats-grid-2x2 {
@@ -284,6 +312,33 @@
 		</c:choose>
 	</div>
 </nav>
+
+<c:if test="${not empty sessionScope.userId && param.justLoggedIn == '1' && sessionScope.locationOn != true}">
+<script>
+(function() {
+    var csrfToken = '<%=util.CsrfUtil.getOrCreateToken(session)%>';
+    var ctx = '${pageContext.request.contextPath}';
+
+    showConfirm(
+        '주변 스팟의 실시간 인원을 보려면 위치 공유가 필요해요.\n지금 위치 공유를 켤까요?',
+        function() { // 켜기
+            var body = new URLSearchParams();
+            body.append('_csrf', csrfToken);
+            body.append('state', 'on');
+            fetch(ctx + '/toggleLocation', { method: 'POST', body: body })
+                .then(function() { location.href = ctx + '/index.jsp'; });
+        },
+        null, // 나중에: 그냥 닫기
+        { yesText: '켜기', noText: '나중에' }
+    );
+
+    // 새로고침해도 팝업이 다시 뜨지 않도록 주소에서 justLoggedIn 제거
+    if (history.replaceState) {
+        history.replaceState(null, '', ctx + '/index.jsp');
+    }
+})();
+</script>
+</c:if>
 
 <div class="container-fluid main-content px-5">
 	<div class="row">
