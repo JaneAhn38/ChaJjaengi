@@ -16,6 +16,7 @@
 	}
 %>
 
+<% request.setAttribute("hideLoginLink", true); %>
 <jsp:include page="../common/menu.jsp" />
 
 <div class="page-hero">

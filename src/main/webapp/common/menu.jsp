@@ -25,8 +25,10 @@
 			<i class="fa-solid fa-comments"></i> 커뮤니티</a>
 		<c:choose>
 			<c:when test="${empty sessionScope.userId}">
-				<a class="nav-link-item" href="<c:url value="/member/loginMember.jsp"/>">
-					<i class="fa-solid fa-right-to-bracket"></i> 로그인</a>
+				<c:if test="${empty hideLoginLink}">
+					<a class="nav-link-item" href="<c:url value="/member/loginMember.jsp"/>">
+						<i class="fa-solid fa-right-to-bracket"></i> 로그인</a>
+				</c:if>
 				<a class="nav-signup-btn" href="<c:url value="/member/addMember.jsp"/>">
 					<i class="fa-solid fa-user-plus"></i> 회원가입</a>
 			</c:when>
