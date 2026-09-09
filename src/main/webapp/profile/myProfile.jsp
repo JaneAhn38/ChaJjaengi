@@ -205,6 +205,8 @@
             .then(data => {
                 document.getElementById('locationLabel').textContent =
                     data.locationOn ? '공유 중' : '공유 안 함';
+                // 위치 전송 스크립트는 세션 값이 페이지에 다시 렌더링될 때만 켜지므로 새로고침
+                location.reload();
             });
     });
 
