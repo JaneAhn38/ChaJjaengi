@@ -324,13 +324,21 @@
 <script>
 (function() {
     var DISMISS_KEY = 'locationPromptDismissed';
+    var justLoggedIn = window.location.search.indexOf('justLoggedIn') !== -1;
 
     // 새로고침해도 URL이 지저분해지지 않도록 justLoggedIn 파라미터만 제거
-    if (history.replaceState && window.location.search.indexOf('justLoggedIn') !== -1) {
+    if (history.replaceState && justLoggedIn) {
         history.replaceState(null, '', '${pageContext.request.contextPath}/index.jsp');
     }
 
-    // "나중에"를 이미 눌렀다면 이번 로그인(브라우저 세션) 동안은 다시 묻지 않음
+    // sessionStorage는 브라우저 탭 기준이라 로그아웃/재로그인해도 안 지워짐.
+    // 방금 새로 로그인한 거면(justLoggedIn) 예전에 눌러둔 "나중에" 표시를 초기화해서
+    // 이번 로그인에서는 다시 물어보게 함.
+    if (justLoggedIn) {
+        try { sessionStorage.removeItem(DISMISS_KEY); } catch (e) {}
+    }
+
+    // "나중에"를 이미 눌렀다면 이번 로그인 동안은 다시 묻지 않음
     var dismissed = false;
     try { dismissed = sessionStorage.getItem(DISMISS_KEY) === '1'; } catch (e) {}
     if (dismissed) return;
