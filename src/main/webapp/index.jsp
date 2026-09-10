@@ -313,6 +313,18 @@
 <c:if test="${not empty sessionScope.userId && sessionScope.locationOn != true}">
 <script>
 (function() {
+    var DISMISS_KEY = 'locationPromptDismissed';
+
+    // 새로고침해도 URL이 지저분해지지 않도록 justLoggedIn 파라미터만 제거
+    if (history.replaceState && window.location.search.indexOf('justLoggedIn') !== -1) {
+        history.replaceState(null, '', '${pageContext.request.contextPath}/index.jsp');
+    }
+
+    // "나중에"를 이미 눌렀다면 이번 로그인(브라우저 세션) 동안은 다시 묻지 않음
+    var dismissed = false;
+    try { dismissed = sessionStorage.getItem(DISMISS_KEY) === '1'; } catch (e) {}
+    if (dismissed) return;
+
     var csrfToken = '<%=util.CsrfUtil.getOrCreateToken(session)%>';
     var ctx = '${pageContext.request.contextPath}';
 
@@ -325,14 +337,11 @@
             fetch(ctx + '/toggleLocation', { method: 'POST', body: body })
                 .then(function() { location.href = ctx + '/index.jsp'; });
         },
-        null, // 나중에: 그냥 닫기
+        function() { // 나중에: 다시 묻지 않도록 표시만 하고 닫기
+            try { sessionStorage.setItem(DISMISS_KEY, '1'); } catch (e) {}
+        },
         { yesText: '켜기', noText: '나중에' }
     );
-
-    // 새로고침해도 URL이 지저분해지지 않도록 justLoggedIn 파라미터만 제거
-    if (history.replaceState && window.location.search.indexOf('justLoggedIn') !== -1) {
-        history.replaceState(null, '', ctx + '/index.jsp');
-    }
 })();
 </script>
 </c:if>
