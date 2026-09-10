@@ -14,7 +14,8 @@ function validateSignInForm() {
     // phone은 phone1(select) + phone2 + phone3으로 분리되어 있음
     const phone2   = form["phone2"].value.trim();
     const phone3   = form["phone3"].value.trim();
-    const address  = form["address"].value.trim();
+    const addressBase   = document.getElementById("addressBase").value.trim();
+    const addressDetail = document.getElementById("addressDetail").value.trim();
     const gender   = form.querySelector('input[name="gender"]:checked');
 
     const idRegex = /^[a-zA-Z0-9]{8,17}$/;
@@ -78,10 +79,14 @@ function validateSignInForm() {
         return false;
     }
 
-    if (!address) {
-        showAlert("주소를 입력하세요.");
+    if (!addressBase) {
+        showAlert("주소 검색을 눌러 주소를 선택해주세요.");
         return false;
     }
+
+    // 주소 검색으로 찾은 기본 주소 + 직접 입력한 상세 주소를 합쳐서 전송
+    document.getElementById("address").value =
+        addressDetail ? (addressBase + " " + addressDetail) : addressBase;
 
     return true;
 }

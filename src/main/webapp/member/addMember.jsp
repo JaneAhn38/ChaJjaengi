@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../resources/css/theme.css" />
     <title>회원가입 | 차쟁이</title>
 	<script src="../resources/js/customAlert.js?v=2"></script>
+	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script src="../resources/js/validationSignIn.js"></script>
 </head>
 <body>
@@ -170,11 +171,16 @@
 			</div>
 		</div>
 
-        <!-- 주소 입력란과 위경도 변환 버튼 추가 -->
+        <!-- 주소 검색 (다음 우편번호 서비스) -->
         <div class="mb-4 row">
             <label class="col-sm-2 col-form-label">주소</label>
             <div class="col-sm-7">
-                <input name="address" id="address" type="text" class="form-control" placeholder="도로명 주소 입력">
+                <div class="d-flex gap-2">
+                    <input type="text" id="addressBase" class="form-control" readonly placeholder="주소 검색을 눌러주세요">
+                    <button type="button" class="btn btn-figma-secondary text-nowrap" onclick="searchAddress()">주소 검색</button>
+                </div>
+                <input type="text" id="addressDetail" class="form-control mt-2" placeholder="상세 주소 입력 (동/호수 등)">
+                <input type="hidden" name="address" id="address">
             </div>
         </div>
 
@@ -201,6 +207,15 @@
 			customInput.value = ""; // 기존 값 초기화
 		}
 	});
+
+	function searchAddress() {
+		new daum.Postcode({
+			oncomplete: function(data) {
+				document.getElementById('addressBase').value = data.roadAddress || data.jibunAddress;
+				document.getElementById('addressDetail').focus();
+			}
+		}).open();
+	}
 </script>
 </body>
 </html>

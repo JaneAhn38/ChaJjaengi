@@ -6,6 +6,7 @@
 <head>
     <link rel="stylesheet" href="../resources/css/bootstrap.min.css"/>
     <title>개인정보 수정</title>
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
 <%
@@ -160,8 +161,15 @@
         </div>
         <div class="mb-3 row">
             <label class="col-sm-2">주소</label>
-            <div class="col-sm-5">
-                <input name="address" type="text" class="form-control" value="<%= util.HtmlUtil.escape(user.getUserAddress() != null ? user.getUserAddress() : "") %>">
+            <div class="col-sm-7">
+                <div class="d-flex gap-2">
+                    <input type="text" id="addressBase" class="form-control" readonly
+                           value="<%= util.HtmlUtil.escape(user.getUserAddress() != null ? user.getUserAddress() : "") %>"
+                           placeholder="주소 검색을 눌러주세요">
+                    <button type="button" class="btn btn-outline-secondary text-nowrap" onclick="searchAddress()">주소 검색</button>
+                </div>
+                <input type="text" id="addressDetail" class="form-control mt-2" placeholder="상세 주소 입력 (동/호수 등, 변경 시에만 입력)">
+                <input type="hidden" name="address" id="address">
             </div>
         </div>
         <div class="mb-3 row">
@@ -185,12 +193,34 @@
 <script>
 function checkForm() {
     const form = document.newMember;
-    if (!form.password.value && !form.password_confirm.value) return true; // 비밀번호 미변경
-    if (form.password.value !== form.password_confirm.value) {
+
+    // 비밀번호 미변경(둘 다 빈칸)이 아니면 일치 여부 확인
+    if ((form.password.value || form.password_confirm.value)
+            && form.password.value !== form.password_confirm.value) {
         showAlert("비밀번호를 동일하게 입력하세요.");
         return false;
     }
+
+    const addressBase   = document.getElementById("addressBase").value.trim();
+    const addressDetail = document.getElementById("addressDetail").value.trim();
+    if (!addressBase) {
+        showAlert("주소 검색을 눌러 주소를 선택해주세요.");
+        return false;
+    }
+    // 주소 검색으로 찾은 기본 주소 + 직접 입력한 상세 주소를 합쳐서 전송
+    document.getElementById("address").value =
+        addressDetail ? (addressBase + " " + addressDetail) : addressBase;
+
     return true;
+}
+
+function searchAddress() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            document.getElementById('addressBase').value = data.roadAddress || data.jibunAddress;
+            document.getElementById('addressDetail').focus();
+        }
+    }).open();
 }
 </script>
 </body>
