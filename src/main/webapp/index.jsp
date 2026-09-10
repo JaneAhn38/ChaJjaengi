@@ -310,7 +310,7 @@
 	</div>
 </nav>
 
-<c:if test="${not empty sessionScope.userId && param.justLoggedIn == '1' && sessionScope.locationOn != true}">
+<c:if test="${not empty sessionScope.userId && sessionScope.locationOn != true}">
 <script>
 (function() {
     var csrfToken = '<%=util.CsrfUtil.getOrCreateToken(session)%>';
@@ -329,8 +329,8 @@
         { yesText: '켜기', noText: '나중에' }
     );
 
-    // 새로고침해도 팝업이 다시 뜨지 않도록 주소에서 justLoggedIn 제거
-    if (history.replaceState) {
+    // 새로고침해도 URL이 지저분해지지 않도록 justLoggedIn 파라미터만 제거
+    if (history.replaceState && window.location.search.indexOf('justLoggedIn') !== -1) {
         history.replaceState(null, '', ctx + '/index.jsp');
     }
 })();
