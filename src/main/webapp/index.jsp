@@ -1,6 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.Date"%>
+<%@ page import="util.RegionCenterUtil"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+    // 로그인한 사용자의 가입 주소(시/도 단위)로 홈화면 지도 초기 위치를 결정.
+    // 못 찾거나 비로그인이면 기본(수도권 전체) 화면 유지.
+    RegionCenterUtil.RegionView regionView =
+            RegionCenterUtil.forAddress((String) session.getAttribute("userAddress"));
+    double mapCenterLat = (regionView != null) ? regionView.lat() : 37.6;
+    double mapCenterLng = (regionView != null) ? regionView.lng() : 127.1;
+    int mapZoom = (regionView != null) ? regionView.zoom() : 9;
+%>
 <html>
 <head>
 	<link rel="stylesheet" href="resources/css/bootstrap.min.css" />
@@ -402,8 +412,8 @@
 	var GYEONGGI_COLOR = '#E5E5EA'; // 스크린샷과 유사한 밝은 회색
 
 	var map = L.map('map', {
-		center: [37.6, 127.1],
-		zoom: 9,
+		center: [<%=mapCenterLat%>, <%=mapCenterLng%>],
+		zoom: <%=mapZoom%>,
 		minZoom: 8,
 		maxZoom: 16,
 		zoomControl: true

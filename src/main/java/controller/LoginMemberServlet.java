@@ -45,6 +45,7 @@ public class LoginMemberServlet extends HttpServlet {
             session.setAttribute("userRole",
                     user.getUserRole() != null ? user.getUserRole() : "USER");
             session.setAttribute("locationOn", loadLocationSetting(user.getUserId()));
+            session.setAttribute("userAddress", user.getUserAddress());
 
             response.sendRedirect(request.getContextPath() + "/index.jsp?justLoggedIn=1");
         } else {
