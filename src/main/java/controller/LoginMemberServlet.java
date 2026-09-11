@@ -45,6 +45,7 @@ public class LoginMemberServlet extends HttpServlet {
             session.setAttribute("userRole",
                     user.getUserRole() != null ? user.getUserRole() : "USER");
             session.setAttribute("locationOn", loadLocationSetting(user.getUserId()));
+            session.setAttribute("profileShareOn", loadProfileShareSetting(user.getUserId()));
             session.setAttribute("userAddress", user.getUserAddress());
 
             response.sendRedirect(request.getContextPath() + "/index.jsp?justLoggedIn=1");
@@ -60,6 +61,20 @@ public class LoginMemberServlet extends HttpServlet {
             ps.setString(1, userId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) return rs.getBoolean("show_location_onOff");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private boolean loadProfileShareSetting(String userId) {
+        String sql = "SELECT share_profile_onOff FROM user_privacy_setting WHERE user_id = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getBoolean("share_profile_onOff");
             }
         } catch (Exception e) {
             e.printStackTrace();

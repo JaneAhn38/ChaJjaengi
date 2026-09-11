@@ -79,6 +79,22 @@ public class UserRepository {
         }
     }
 
+    /** 해당 유저가 "같은 스팟 방문자에게 프로필 공개"에 동의했는지. URL 직접 접근으로
+     *  동의 안 한 사람 프로필을 열람하는 걸 막기 위한 서버 사이드 체크용. */
+    public static boolean isProfileShared(String userId) {
+        String sql = "SELECT share_profile_onOff FROM user_privacy_setting WHERE user_id = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getBoolean("share_profile_onOff");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     /** 회원 탈퇴 */
     public static boolean deleteUser(String userId) {
         String sql = "DELETE FROM users WHERE user_id = ?";

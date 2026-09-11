@@ -118,8 +118,9 @@ CREATE TABLE spot_presence
 -- 유저 노출/프라이버시 정책
 CREATE TABLE user_privacy_setting
 (
-    user_id             VARCHAR(30) NOT NULL,  -- PK, FK: 유저 고유 ID
-    show_location_onOff BOOLEAN DEFAULT FALSE, -- 위치 노출 여부
+    user_id             VARCHAR(30) NOT NULL,           -- PK, FK: 유저 고유 ID
+    show_location_onOff BOOLEAN NOT NULL DEFAULT FALSE, -- 위치 노출 여부
+    share_profile_onOff BOOLEAN NOT NULL DEFAULT FALSE, -- 같은 스팟 방문자에게 내 프로필 공개 여부
 
     PRIMARY KEY (user_id),
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE

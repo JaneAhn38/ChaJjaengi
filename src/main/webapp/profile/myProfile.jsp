@@ -101,7 +101,21 @@
                             <%= Boolean.TRUE.equals(session.getAttribute("locationOn")) ? "공유 중" : "공유 안 함" %>
                         </label>
                     </div>
-                    <p class="text-muted" style="font-size:0.75rem;">켜면 스팟 방문자 수에 반영됩니다.<br>30분마다 계속할지 확인합니다.</p>
+                    <p class="text-muted" style="font-size:0.75rem;">켜면 스팟 방문자 수에 반영됩니다.</p>
+                </div>
+
+                <!-- 내 정보 공유 설정 -->
+                <div class="mt-3 pt-3 border-top text-start">
+                    <p class="fw-bold small mb-2">내 정보 공유 설정</p>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch"
+                               id="profileShareToggle"
+                               <%= Boolean.TRUE.equals(session.getAttribute("profileShareOn")) ? "checked" : "" %>>
+                        <label class="form-check-label small" for="profileShareToggle" id="profileShareLabel">
+                            <%= Boolean.TRUE.equals(session.getAttribute("profileShareOn")) ? "공개 중" : "비공개" %>
+                        </label>
+                    </div>
+                    <p class="text-muted" style="font-size:0.75rem;">켜면 같은 스팟에 방문 중인 다른 사람에게<br>내 닉네임/소개/차량 정보가 "방문중인 멤버" 목록으로 보입니다.</p>
                 </div>
             </div>
         </div>
@@ -207,6 +221,18 @@
                     data.locationOn ? '공유 중' : '공유 안 함';
                 // 위치 전송 스크립트는 세션 값이 페이지에 다시 렌더링될 때만 켜지므로 새로고침
                 location.reload();
+            });
+    });
+
+    // 내 정보 공유 토글
+    document.getElementById('profileShareToggle').addEventListener('change', function() {
+        var body = new URLSearchParams();
+        body.append('_csrf', '<%= csrfToken %>');
+        fetch('<%= request.getContextPath() %>/toggleProfileShare', { method: 'POST', body: body })
+            .then(r => r.json())
+            .then(data => {
+                document.getElementById('profileShareLabel').textContent =
+                    data.profileShareOn ? '공개 중' : '비공개';
             });
     });
 

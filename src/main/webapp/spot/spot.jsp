@@ -71,11 +71,63 @@
                 <a href="../spotApplication/spotRemoveApplication.jsp?spotId=<%=spot.getSpotId()%>" class="btn btn-outline-danger">
                     장소 삭제 요청
                 </a>
+                <button type="button" class="btn btn-outline-primary" onclick="loadSpotMembers()">
+                    방문중인 멤버 보기
+                </button>
+            </div>
+
+            <div id="spotMembersBox" class="mt-3" style="display:none;">
+                <div class="card card-body" id="spotMembersContent">불러오는 중...</div>
             </div>
         </div>
     </div>
 
 </div>
+<script>
+    var SPOT_ID = <%=spot.getSpotId()%>;
+    var IS_LOGGED_IN = <%= userId != null %>;
+
+    function loadSpotMembers() {
+        var box = document.getElementById('spotMembersBox');
+        var content = document.getElementById('spotMembersContent');
+
+        if (!IS_LOGGED_IN) {
+            showAlert("로그인을 해야 방문중인 멤버를 볼 수 있습니다!", function() {
+                location.href = "../member/loginMember.jsp";
+            });
+            return;
+        }
+
+        box.style.display = 'block';
+        content.textContent = '불러오는 중...';
+
+        fetch('<%=request.getContextPath()%>/api/spotMembers?spotId=' + SPOT_ID)
+            .then(function(r) { return r.json(); })
+            .then(function(members) {
+                if (!members.length) {
+                    content.innerHTML = '<span class="text-muted">정보 공유에 동의한 방문자가 없습니다.</span>';
+                    return;
+                }
+                content.innerHTML = members.map(function(m) {
+                    var img = m.profileImage
+                        ? '<img src="<%=request.getContextPath()%>/resources/images/' + m.profileImage + '" style="width:36px;height:36px;object-fit:cover;border-radius:50%;">'
+                        : '<span style="width:36px;height:36px;border-radius:50%;background:#e9ecef;display:inline-flex;align-items:center;justify-content:center;">👤</span>';
+                    return '<a href="../member/viewProfile.jsp?userId=' + encodeURIComponent(m.userId) + '" ' +
+                           'class="d-flex align-items-center gap-2 text-decoration-none text-dark mb-2">' +
+                           img + '<span>' + escapeHtml(m.nickname) + '</span></a>';
+                }).join('');
+            })
+            .catch(function() {
+                content.innerHTML = '<span class="text-danger">불러오지 못했습니다.</span>';
+            });
+    }
+
+    function escapeHtml(s) {
+        return String(s == null ? '' : s)
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+</script>
 </body>
 
 <jsp:include page="../common/footer.jsp"/>

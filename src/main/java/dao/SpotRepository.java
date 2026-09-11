@@ -2,11 +2,51 @@ package dao;
 
 import dto.AddSpotApplication;
 import dto.Spot;
+import dto.SpotMember;
 import java.util.ArrayList;
 import java.sql.*;
 import util.DBUtil;
 
 public class SpotRepository {
+
+    /**
+     * 해당 스팟 반경 안에 "지금" 있으면서(PresenceAggregator와 동일한 기준: 최근 10분
+     * 이내 갱신) 프로필 공개(share_profile_onOff)에 동의한 유저 목록을 반환한다.
+     */
+    public static ArrayList<SpotMember> getPresentSharedMembers(int spotId) {
+        ArrayList<SpotMember> members = new ArrayList<>();
+        String sql = """
+            SELECT ucl.user_id, p.nickname, p.profile_image
+            FROM spots s
+            JOIN user_current_location ucl
+                ON ST_Distance_Sphere(
+                       POINT(s.longitude, s.latitude),
+                       POINT(ucl.current_longitude, ucl.current_latitude)
+                   ) <= s.radius_m
+               AND ucl.updated_at >= (NOW() - INTERVAL 10 MINUTE)
+            JOIN user_privacy_setting ups
+                ON ups.user_id = ucl.user_id AND ups.share_profile_onOff = TRUE
+            LEFT JOIN profile p ON p.user_id = ucl.user_id
+            WHERE s.spot_id = ?
+        """;
+
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, spotId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    members.add(new SpotMember(
+                            rs.getString("user_id"),
+                            rs.getString("nickname"),
+                            rs.getString("profile_image")
+                    ));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return members;
+    }
 
     public static Spot getSpotBySpotId(int spotId) {
         String sql = "SELECT s.*, COALESCE(sp.active_user_count, 0) AS active_user_count " +
