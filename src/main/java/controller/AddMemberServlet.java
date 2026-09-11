@@ -40,6 +40,11 @@ public class AddMemberServlet extends HttpServlet {
         String password = request.getParameter("password");
         String passwordConfirm = request.getParameter("password_confirm");
 
+        if (!"on".equals(request.getParameter("agreePrivacy"))) {
+            response.sendRedirect(request.getContextPath() + "/member/addMember.jsp?error=privacy");
+            return;
+        }
+
         if (id == null || id.isBlank()) {
             response.sendRedirect(request.getContextPath() + "/member/addMember.jsp?error=id");
             return;

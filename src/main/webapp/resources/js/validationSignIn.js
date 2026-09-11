@@ -84,6 +84,11 @@ function validateSignInForm() {
         return false;
     }
 
+    if (!form["agreePrivacy"].checked) {
+        showAlert("개인정보 수집 및 이용에 동의해주세요.");
+        return false;
+    }
+
     // 주소 검색으로 찾은 기본 주소 + 직접 입력한 상세 주소를 합쳐서 전송
     document.getElementById("address").value =
         addressDetail ? (addressBase + " " + addressDetail) : addressBase;

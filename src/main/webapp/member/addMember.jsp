@@ -39,6 +39,7 @@
         <% } else if ("birth".equals(error)) { %>생년월일을 올바르게 입력해주세요.
         <% } else if ("email".equals(error)) { %>이메일을 올바르게 입력해주세요.
         <% } else if ("dup".equals(error)) { %>이미 사용 중인 아이디 또는 이메일입니다.
+        <% } else if ("privacy".equals(error)) { %>개인정보 수집 및 이용에 동의해야 회원가입이 가능합니다.
         <% } %>
     </div>
     <% } %>
@@ -181,6 +182,18 @@
                 </div>
                 <input type="text" id="addressDetail" class="form-control mt-2" placeholder="상세 주소 입력 (동/호수 등)">
                 <input type="hidden" name="address" id="address">
+            </div>
+        </div>
+
+        <!-- 개인정보 수집 및 이용 동의 -->
+        <div class="mb-3 row">
+            <div class="col-sm-10 offset-sm-2">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="agreePrivacy" id="agreePrivacy">
+                    <label class="form-check-label" for="agreePrivacy">
+                        [필수] <a href="${pageContext.request.contextPath}/policy/privacyPolicy.jsp" target="_blank">개인정보 수집 및 이용</a>에 동의합니다.
+                    </label>
+                </div>
             </div>
         </div>
 
