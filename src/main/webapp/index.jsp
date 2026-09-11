@@ -234,6 +234,16 @@
 			border: 1px solid var(--figma-border);
 			margin-bottom: 15px;
 		}
+		.spot-item-link {
+			display: block;
+			text-decoration: none;
+			color: inherit;
+			transition: 0.2s;
+		}
+		.spot-item-link:hover .spot-item {
+			border-color: var(--figma-point-red);
+			background-color: rgba(255,59,48,0.04);
+		}
 		.spot-item-left {
 			display: flex;
 			align-items: center;
@@ -636,7 +646,9 @@
 						elPopularList.innerHTML = top3.map(function(s, i) {
 							var lastStyle = (i === top3.length - 1) ? ' style="margin-bottom:0;"' : '';
 							var shortName = s.name.length > 10 ? s.name.substring(0, 10) + '...' : s.name;
-							return '<div class="spot-item"' + lastStyle + '>' +
+							var detailUrl = '<%=request.getContextPath()%>/spot/spot.jsp?spotId=' + encodeURIComponent(s.spotId);
+							return '<a class="spot-item-link" href="' + detailUrl + '">' +
+									'<div class="spot-item"' + lastStyle + '>' +
 									'<div class="spot-item-left">' +
 									'<i class="fa-solid fa-location-pin spot-pin"></i>' +
 									'<div>' +
@@ -644,7 +656,8 @@
 									'</div>' +
 									'</div>' +
 									'<div class="spot-item-right"><i class="fa-solid fa-users"></i> ' + (s.activeUserCount || 0) + '</div>' +
-									'</div>';
+									'</div>' +
+									'</a>';
 						}).join('');
 					}
 				}
