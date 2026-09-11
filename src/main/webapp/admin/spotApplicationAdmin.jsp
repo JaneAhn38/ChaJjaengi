@@ -92,7 +92,7 @@
                             <tr>
                                 <td>
                                     <c:if test="${not empty app.spotImage}">
-                                        <img src="${pageContext.request.contextPath}/resources/images/${app.spotImage}"
+                                        <img src="${app.spotImage}"
                                              style="width:80px;height:60px;object-fit:cover;border-radius:4px;"
                                              alt="스팟 사진">
                                     </c:if>

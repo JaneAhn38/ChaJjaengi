@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
-import util.FileUtil;
+import util.CloudinaryUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -64,22 +64,17 @@ public class AddPostServlet extends HttpServlet {
             return;
         }
 
-        // 이미지 저장
-        String uploadDir = getServletContext().getRealPath("/resources/images");
-        if (uploadDir == null) {
-            response.sendRedirect(request.getContextPath() + "/community/post.jsp?postId=" + postId);
-            return;
-        }
+        // 이미지 업로드 (Cloudinary)
         List<String> savedImages = new ArrayList<>();
         Collection<Part> parts = request.getParts();
         for (Part part : parts) {
             if ("postImages".equals(part.getName()) && part.getSize() > 0) {
                 try {
-                    savedImages.add(FileUtil.saveImage(part, uploadDir));
+                    savedImages.add(CloudinaryUtil.uploadImage(part));
                 } catch (IllegalArgumentException e) {
                     // 허용되지 않는 확장자는 건너뜀
                 } catch (Exception e) {
-                    // 이미지 저장 실패 시 해당 이미지만 건너뜀 (게시글 자체는 유지)
+                    // 업로드 실패 시 해당 이미지만 건너뜀 (게시글 자체는 유지)
                     e.printStackTrace();
                 }
             }

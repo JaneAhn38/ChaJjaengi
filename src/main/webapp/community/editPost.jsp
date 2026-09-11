@@ -84,7 +84,7 @@
                     <div class="d-flex flex-wrap gap-3">
                         <% for (PostImage img : post.getImages()) { %>
                         <div class="text-center">
-                            <img src="<%= request.getContextPath() %>/resources/images/<%= img.getImagePath() %>"
+                            <img src="<%= img.getImagePath() %>"
                                  style="height:100px; border-radius:4px; border:1px solid #ddd;">
                             <div class="form-check mt-1">
                                 <input class="form-check-input" type="checkbox"

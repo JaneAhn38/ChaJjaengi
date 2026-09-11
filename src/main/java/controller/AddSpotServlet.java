@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
-import util.FileUtil;
+import util.CloudinaryUtil;
 import util.GeocodeUtil;
 
 import java.io.IOException;
@@ -55,19 +55,21 @@ public class AddSpotServlet extends HttpServlet {
             longitude = coords.longitude();
         }
 
-        // 이미지 저장 (확장자 검증 + UUID 파일명)
-        String savedFileName = "";
+        // 이미지 업로드 (Cloudinary - 재배포에도 사라지지 않도록)
+        String imageUrl = "";
         Part filePart = request.getPart("spotImage");
         if (filePart != null && filePart.getSize() > 0) {
-            String uploadDir = getServletContext().getRealPath("/resources/images");
             try {
-                savedFileName = FileUtil.saveImage(filePart, uploadDir);
+                imageUrl = CloudinaryUtil.uploadImage(filePart);
             } catch (IllegalArgumentException e) {
                 response.sendRedirect(request.getContextPath()
                         + "/spotApplication/spotAddApplication.jsp?error=filetype");
                 return;
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
+                response.sendRedirect(request.getContextPath()
+                        + "/spotApplication/spotAddApplication.jsp?error=upload");
+                return;
             }
         }
 
@@ -79,7 +81,7 @@ public class AddSpotServlet extends HttpServlet {
         app.setSpotDescription(""); // 신청 단계에서는 더 이상 입력받지 않음 (DB NOT NULL 제약 때문에 빈 문자열)
         app.setSpotCategory(category != null ? category : "1");
         app.setApplicationReason(applicationReason != null ? applicationReason : "");
-        app.setSpotImage(savedFileName);
+        app.setSpotImage(imageUrl);
         app.setSpotAddress(spotAddress != null ? spotAddress : "");
 
         AddSpotApplicationRepository.insert(app);

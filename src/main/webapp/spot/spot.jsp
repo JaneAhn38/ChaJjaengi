@@ -46,7 +46,7 @@
     <div class="row align-items-md-stretch">
         <div class="col-md-8">
             <% if (spot.getSpotImage() != null && !spot.getSpotImage().isEmpty()) { %>
-        <img src="<%=request.getContextPath()%>/resources/images/<%=util.HtmlUtil.escape(spot.getSpotImage())%>"
+        <img src="<%=util.HtmlUtil.escape(spot.getSpotImage())%>"
              style="width: 70%;" alt="스팟 이미지"/>
         <% } %>
             <h3>
@@ -110,7 +110,7 @@
                 }
                 content.innerHTML = members.map(function(m) {
                     var img = m.profileImage
-                        ? '<img src="<%=request.getContextPath()%>/resources/images/' + m.profileImage + '" style="width:36px;height:36px;object-fit:cover;border-radius:50%;">'
+                        ? '<img src="' + m.profileImage + '" style="width:36px;height:36px;object-fit:cover;border-radius:50%;">'
                         : '<span style="width:36px;height:36px;border-radius:50%;background:#e9ecef;display:inline-flex;align-items:center;justify-content:center;">👤</span>';
                     return '<a href="../member/viewProfile.jsp?userId=' + encodeURIComponent(m.userId) + '" ' +
                            'class="d-flex align-items-center gap-2 text-decoration-none text-dark mb-2">' +

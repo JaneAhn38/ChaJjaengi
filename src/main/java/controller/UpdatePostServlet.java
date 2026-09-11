@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
-import util.FileUtil;
+import util.CloudinaryUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -69,45 +69,31 @@ public class UpdatePostServlet extends HttpServlet {
         post.setContent(content.trim());
         PostRepository.update(post);
 
-        // 선택된 이미지 삭제
+        // 선택된 이미지 삭제 (Cloudinary 쪽 파일은 그대로 두고 DB 연결만 삭제 - 무료
+        // 플랜 용량 안에서는 굳이 정리 API까지 호출할 필요 없음)
         String[] deleteIds = request.getParameterValues("deleteImageIds");
         if (deleteIds != null) {
-            String uploadDir = getServletContext().getRealPath("/resources/images");
-            if (uploadDir == null) {
-                response.sendRedirect(request.getContextPath() + "/community/post.jsp?postId=" + postId);
-                return;
-            }
             for (String idStr : deleteIds) {
                 try {
                     int imageId = Integer.parseInt(idStr);
-                    String path = PostImageRepository.getImagePath(imageId);
                     PostImageRepository.deleteImage(imageId, postId);
-                    if (path != null && !path.isEmpty()) {
-                        java.nio.file.Files.deleteIfExists(
-                                java.nio.file.Paths.get(uploadDir, path));
-                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }
 
-        // 새 이미지 추가
-        String uploadDir = getServletContext().getRealPath("/resources/images");
-        if (uploadDir == null) {
-            response.sendRedirect(request.getContextPath() + "/community/post.jsp?postId=" + postId);
-            return;
-        }
+        // 새 이미지 추가 (Cloudinary)
         List<String> newImages = new ArrayList<>();
         Collection<Part> parts = request.getParts();
         for (Part part : parts) {
             if ("postImages".equals(part.getName()) && part.getSize() > 0) {
                 try {
-                    newImages.add(FileUtil.saveImage(part, uploadDir));
+                    newImages.add(CloudinaryUtil.uploadImage(part));
                 } catch (IllegalArgumentException e) {
                     // 허용되지 않는 확장자는 건너뜀
                 } catch (Exception e) {
-                    // 이미지 저장 실패 시 해당 이미지만 건너뜀 (게시글 수정 자체는 유지)
+                    // 업로드 실패 시 해당 이미지만 건너뜀 (게시글 수정 자체는 유지)
                     e.printStackTrace();
                 }
             }

@@ -76,7 +76,7 @@
             <% if (!post.getImages().isEmpty()) { %>
             <div class="mt-3 d-flex flex-wrap gap-2">
                 <% for (PostImage img : post.getImages()) { %>
-                <img src="<%= request.getContextPath() %>/resources/images/<%= img.getImagePath() %>"
+                <img src="<%= img.getImagePath() %>"
                      class="img-thumbnail" style="max-height:250px; cursor:pointer;"
                      onclick="window.open(this.src)">
                 <% } %>

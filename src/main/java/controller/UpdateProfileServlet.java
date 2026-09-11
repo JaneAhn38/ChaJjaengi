@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
-import util.FileUtil;
+import util.CloudinaryUtil;
 
 import java.io.IOException;
 
@@ -52,20 +52,17 @@ public class UpdateProfileServlet extends HttpServlet {
 
         Part filePart = request.getPart("profileImage");
         if (filePart != null && filePart.getSize() > 0) {
-            String uploadDir = getServletContext().getRealPath("/resources/images");
-            if (uploadDir == null) {
-                response.sendRedirect(request.getContextPath()
-                        + "/profile/editProfile.jsp?error=upload");
-                return;
-            }
             try {
-                profileImage = FileUtil.saveImage(filePart, uploadDir);
+                profileImage = CloudinaryUtil.uploadImage(filePart);
             } catch (IllegalArgumentException e) {
                 response.sendRedirect(request.getContextPath()
                         + "/profile/editProfile.jsp?error=filetype");
                 return;
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
+                response.sendRedirect(request.getContextPath()
+                        + "/profile/editProfile.jsp?error=upload");
+                return;
             }
         }
 

@@ -61,7 +61,7 @@
             <div class="card p-4 text-center">
                 <c:choose>
                     <c:when test="${not empty profile.profileImage}">
-                        <img src="${pageContext.request.contextPath}/resources/images/${profile.profileImage}"
+                        <img src="${profile.profileImage}"
                              class="profile-img mx-auto mb-3" alt="프로필 사진">
                     </c:when>
                     <c:otherwise>
@@ -103,7 +103,7 @@
                                 <div class="card h-100">
                                     <c:choose>
                                         <c:when test="${not empty car.carImage}">
-                                            <img src="${pageContext.request.contextPath}/resources/images/${car.carImage}"
+                                            <img src="${car.carImage}"
                                                  class="car-img" alt="차량 사진">
                                         </c:when>
                                         <c:otherwise>

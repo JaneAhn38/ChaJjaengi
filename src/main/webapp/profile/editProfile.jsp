@@ -53,7 +53,7 @@
                 <div class="mb-4 text-center">
                     <c:choose>
                         <c:when test="${not empty profile.profileImage}">
-                            <img src="${pageContext.request.contextPath}/resources/images/${profile.profileImage}"
+                            <img src="${profile.profileImage}"
                                  class="profile-preview mb-2" id="previewImg" alt="현재 프로필 사진">
                         </c:when>
                         <c:otherwise>

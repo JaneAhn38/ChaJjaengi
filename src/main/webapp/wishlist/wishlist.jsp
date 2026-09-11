@@ -50,7 +50,7 @@
     <% for (Spot spot : wishlistSpots) { %>
     <div class="col-md-4">
         <div class="h-100 p-2">
-            <img src="<%= request.getContextPath() %>/resources/images/<%= util.HtmlUtil.escape(spot.getSpotImage()) %>" width="100">
+            <img src="<%= util.HtmlUtil.escape(spot.getSpotImage()) %>" width="100">
             <p><%= util.HtmlUtil.escape(spot.getSpotName()) %></p>
             <form action="<%= request.getContextPath() %>/processRemoveWishlist" method="post">
                 <input type="hidden" name="spotId" value="<%= spot.getSpotId() %>">

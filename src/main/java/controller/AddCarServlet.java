@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
-import util.FileUtil;
+import util.CloudinaryUtil;
 
 import java.io.IOException;
 
@@ -38,23 +38,20 @@ public class AddCarServlet extends HttpServlet {
         int carYear = 0;
         try { carYear = Integer.parseInt(carYearStr); } catch (NumberFormatException ignored) {}
 
-        String savedFileName = "";
+        String imageUrl = "";
         Part filePart = request.getPart("carImage");
         if (filePart != null && filePart.getSize() > 0) {
-            String uploadDir = getServletContext().getRealPath("/resources/images");
-            if (uploadDir == null) {
-                response.sendRedirect(request.getContextPath()
-                        + "/profile/myProfile.jsp?error=upload");
-                return;
-            }
             try {
-                savedFileName = FileUtil.saveImage(filePart, uploadDir);
+                imageUrl = CloudinaryUtil.uploadImage(filePart);
             } catch (IllegalArgumentException e) {
                 response.sendRedirect(request.getContextPath()
                         + "/profile/myProfile.jsp?error=filetype");
                 return;
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
+                response.sendRedirect(request.getContextPath()
+                        + "/profile/myProfile.jsp?error=upload");
+                return;
             }
         }
 
@@ -63,7 +60,7 @@ public class AddCarServlet extends HttpServlet {
         car.setCarBrand(carBrand);
         car.setCarModel(carModel);
         car.setCarYear(carYear);
-        car.setCarImage(savedFileName);
+        car.setCarImage(imageUrl);
 
         CarRepository.insertCar(car);
 

@@ -1,8 +1,6 @@
 package controller;
 
-import dao.PostImageRepository;
 import dao.PostRepository;
-import dto.PostImage;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,9 +9,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 
 @WebServlet("/processRemovePost")
 public class RemovePostServlet extends HttpServlet {
@@ -38,21 +33,7 @@ public class RemovePostServlet extends HttpServlet {
             return;
         }
 
-        // 이미지 파일 정리 (DB 삭제 전 경로 수집)
-        String uploadDir = getServletContext().getRealPath("/resources/images");
-        if (uploadDir != null) {
-            List<PostImage> images = PostImageRepository.getImagesByPostId(postId);
-            for (PostImage img : images) {
-                if (img.getImagePath() != null && !img.getImagePath().isEmpty()) {
-                    try {
-                        Files.deleteIfExists(Paths.get(uploadDir, img.getImagePath()));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-
+        // 이미지는 Cloudinary에 있으므로 로컬 파일 정리는 불필요 (DB 연결만 같이 삭제됨)
         PostRepository.delete(postId, userId);
         response.sendRedirect(request.getContextPath() + "/community/board.jsp");
     }

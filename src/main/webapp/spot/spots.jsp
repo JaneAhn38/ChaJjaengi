@@ -83,7 +83,7 @@
         <div class="col-md-4">
             <div class="card h-100">
                 <% if (spot.getSpotImage() != null && !spot.getSpotImage().isEmpty()) { %>
-                <img src="<%= request.getContextPath() %>/resources/images/<%= util.HtmlUtil.escape(spot.getSpotImage()) %>"
+                <img src="<%= util.HtmlUtil.escape(spot.getSpotImage()) %>"
                      class="card-img-top" style="height:200px; object-fit:cover;" alt="스팟 이미지">
                 <% } %>
                 <div class="card-body d-flex flex-column">
