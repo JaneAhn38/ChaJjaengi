@@ -88,15 +88,10 @@
 
     sendLocation();
     setInterval(sendLocation, 5 * 60 * 1000);
-
-    // 페이지 이동/닫기 시 위치 공유 자동 OFF
-    window.addEventListener('beforeunload', function() {
-        var data = new URLSearchParams();
-        data.append('_csrf', csrfToken);
-        data.append('state', 'off');
-        navigator.sendBeacon(ctx + '/toggleLocation',
-            new Blob([data.toString()], { type: 'application/x-www-form-urlencoded' }));
-    });
+    // 페이지 이동할 때마다 위치공유를 꺼버리면 사이트 내에서 다른 페이지로만
+    // 이동해도 계속 꺼져버리는 문제가 있어 제거함. 탭/브라우저를 닫아서 더 이상
+    // 위치가 갱신되지 않으면, 집계 쪽(PresenceAggregator)에서 10분 지난 위치는
+    // 알아서 인원수에서 빠지므로 별도의 종료 신호가 없어도 자연히 처리됨.
 })();
 </script>
 </c:if>
