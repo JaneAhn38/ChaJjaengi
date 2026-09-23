@@ -4,12 +4,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
     // 로그인한 사용자의 가입 주소(시/도 단위)로 홈화면 지도 초기 위치를 결정.
-    // 못 찾거나 비로그인이면 기본(수도권 전체) 화면 유지.
+    // 못 찾거나 비로그인이면 여의도 한강공원 기준으로 살짝 확대한 기본 화면 사용.
+    // (줌 12는 구 단위 표시가 유지되는 범위 - 동 단위 전환은 줌 13부터)
     RegionCenterUtil.RegionView regionView =
             RegionCenterUtil.forAddress((String) session.getAttribute("userAddress"));
-    double mapCenterLat = (regionView != null) ? regionView.lat() : 37.6;
-    double mapCenterLng = (regionView != null) ? regionView.lng() : 127.1;
-    int mapZoom = (regionView != null) ? regionView.zoom() : 9;
+    double mapCenterLat = (regionView != null) ? regionView.lat() : 37.5285;
+    double mapCenterLng = (regionView != null) ? regionView.lng() : 126.9330;
+    int mapZoom = (regionView != null) ? regionView.zoom() : 12;
 %>
 <html>
 <head>
