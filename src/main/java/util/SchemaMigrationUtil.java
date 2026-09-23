@@ -18,6 +18,9 @@ public class SchemaMigrationUtil {
         addColumnIfMissing(
                 "ALTER TABLE user_privacy_setting ADD COLUMN share_profile_onOff BOOLEAN NOT NULL DEFAULT FALSE"
         );
+        addColumnIfMissing(
+                "ALTER TABLE user_privacy_setting ADD COLUMN first_login_done BOOLEAN NOT NULL DEFAULT FALSE"
+        );
     }
 
     private static void addColumnIfMissing(String alterSql) {

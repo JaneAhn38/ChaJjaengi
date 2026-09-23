@@ -121,6 +121,7 @@ CREATE TABLE user_privacy_setting
     user_id             VARCHAR(30) NOT NULL,           -- PK, FK: 유저 고유 ID
     show_location_onOff BOOLEAN NOT NULL DEFAULT FALSE, -- 위치 노출 여부
     share_profile_onOff BOOLEAN NOT NULL DEFAULT FALSE, -- 같은 스팟 방문자에게 내 프로필 공개 여부
+    first_login_done    BOOLEAN NOT NULL DEFAULT FALSE, -- 이 계정의 첫 로그인을 이미 처리했는지 (최초 1회 위치공유 팝업 강제 노출용)
 
     PRIMARY KEY (user_id),
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE

@@ -331,7 +331,7 @@
 	</div>
 </nav>
 
-<c:if test="${not empty sessionScope.userId && sessionScope.locationOn != true}">
+<c:if test="${not empty sessionScope.userId && (sessionScope.forceLocationPrompt == true || sessionScope.locationOn != true)}">
 <script>
 (function() {
     var DISMISS_KEY = 'locationPromptDismissed';
