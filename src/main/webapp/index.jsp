@@ -387,7 +387,13 @@
 		<div class="col-lg-4">
 			<div class="spot-list-card">
 				<div class="figma-section-title">인기 스팟 <i class="fa-solid fa-star" style="color:#FFCC00;"></i></div>
-				<div class="figma-section-subtitle">많은 차쟁이들이 모여있는 곳이에요.</div>
+				<div class="figma-section-subtitle">
+					<% if (session.getAttribute("userId") == null) { %>
+					로그인을 하면 스팟별 현재 인원을 확인 할 수 있어요!
+					<% } else { %>
+					많은 차쟁이들이 모여있는 곳이에요.
+					<% } %>
+				</div>
 
 				<div id="popularSpotList">
 					<div class="figma-section-subtitle" style="margin:10px 0 0;">불러오는 중...</div>
@@ -427,6 +433,8 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 	// 기존 지도 로직 기반, 스타일만 Figma 재현
+	var IS_LOGGED_IN = <%= session.getAttribute("userId") != null %>;
+	var LOGIN_PROMPT = "로그인을 하면 스팟별 현재 인원을 확인 할 수 있어요!";
 	var DONG_ZOOM = 13;
 	var GYEONGGI_COLOR = '#E5E5EA'; // 스크린샷과 유사한 밝은 회색
 
@@ -618,7 +626,9 @@
 							.setContent(
 									'<div class="custom-popup-content">' +
 									'<strong style="font-size:15px; color:#1C1C1E;">' + escapeHtml(spot.name) + '</strong><br>' +
-									'<span style="color:var(--figma-point-red); font-weight:bold; font-size:13px;"><i class="fa-solid fa-users"></i> ' + spot.activeUserCount + '명 활동 중</span>' +
+									(IS_LOGGED_IN
+										? '<span style="color:var(--figma-point-red); font-weight:bold; font-size:13px;"><i class="fa-solid fa-users"></i> ' + spot.activeUserCount + '명 활동 중</span>'
+										: '<span style="color:var(--figma-text-gray); font-size:13px;"><i class="fa-solid fa-users"></i> ? · ' + LOGIN_PROMPT + '</span>') +
 									'</div>'
 							);
 					marker.bindPopup(popup);
@@ -656,7 +666,7 @@
 									'<div class="spot-name">' + escapeHtml(shortName) + '</div>' +
 									'</div>' +
 									'</div>' +
-									'<div class="spot-item-right"><i class="fa-solid fa-users"></i> ' + (s.activeUserCount || 0) + '</div>' +
+									'<div class="spot-item-right" title="' + (IS_LOGGED_IN ? '' : LOGIN_PROMPT) + '"><i class="fa-solid fa-users"></i> ' + (IS_LOGGED_IN ? (s.activeUserCount || 0) : '?') + '</div>' +
 									'</div>' +
 									'</a>';
 						}).join('');
