@@ -60,17 +60,11 @@
             <p><%=util.HtmlUtil.escape(spot.getSpotDescription())%>
             </p>
             <div class="d-flex gap-2 mt-3 flex-wrap">
-                <a href="../review/reviews.jsp?spotId=<%=spot.getSpotId()%>" class="btn btn-primary">
-                    리뷰 보기 &raquo;
-                </a>
                 <form action="${pageContext.request.contextPath}/processAddWishlist" method="post" style="display:inline;">
                     <input type="hidden" name="spotId" value="<%=spot.getSpotId()%>">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <button type="submit" class="btn btn-warning">찜하기 &raquo;</button>
                 </form>
-                <a href="../spotApplication/spotRemoveApplication.jsp?spotId=<%=spot.getSpotId()%>" class="btn btn-outline-danger">
-                    장소 삭제 요청
-                </a>
                 <button type="button" class="btn btn-outline-primary" onclick="loadSpotMembers()">
                     방문중인 멤버 보기
                 </button>

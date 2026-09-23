@@ -2,9 +2,9 @@ SHOW TABLE STATUS;
 
 SET FOREIGN_KEY_CHECKS = 0;
 
-DROP TABLE IF EXISTS wishlist, reviews, spot_presence, location_logs,
+DROP TABLE IF EXISTS wishlist, spot_presence, location_logs,
     profile, user_cars, user_privacy_setting, spots, users, add_spot_applications,
-    user_current_location, spot_category, remove_spot_applications,
+    user_current_location, spot_category,
     post_images, post_reports, post_likes, post_comments, posts;
 
 
@@ -127,24 +127,6 @@ CREATE TABLE user_privacy_setting
 
 ) DEFAULT CHARSET = utf8mb4;
 
--- 스팟 후기
-CREATE TABLE reviews
-(
-    review_id         INT AUTO_INCREMENT NOT NULL,         -- PK: 리뷰 고유 ID
-    user_id           VARCHAR(30)        NOT NULL,         -- FK: 리뷰 작성한 유저 ID
-    spot_id           INT                NOT NULL,         -- FK: 장소 ID
-    review_text       TEXT,                                -- 리뷰 내용
-    review_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- 작성시간
-    review_rating     DOUBLE,                              -- 별점
-
-    PRIMARY KEY (review_id),
-    FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE,
-    FOREIGN KEY (spot_id) REFERENCES spots (spot_id) ON DELETE CASCADE,
-    UNIQUE KEY uk_user_review (user_id, spot_id)
-
-) DEFAULT CHARSET = utf8mb4;
-
-
 -- 스팟 찜 리스트
 CREATE TABLE wishlist
 (
@@ -184,21 +166,6 @@ CREATE TABLE add_spot_applications
 
 ) DEFAULT CHARSET = utf8mb4;
 
--- 2/25 추가
-CREATE TABLE remove_spot_applications
-(
-    remove_application_id  INT AUTO_INCREMENT PRIMARY KEY,
-    user_id                VARCHAR(30)  NOT NULL,
-    spot_id                INT          NOT NULL,
-    remove_reason          VARCHAR(300) NOT NULL,
-    remove_status          VARCHAR(20) DEFAULT 'PENDING',
-    remove_spot_created_at TIMESTAMP   DEFAULT CURRENT_TIMESTAMP,
-    reject_reason          VARCHAR(300),                          -- 거절 사유
-
-    FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE,
-    FOREIGN KEY (spot_id) REFERENCES spots (spot_id) ON DELETE CASCADE,
-    CHECK (remove_status IN ('PENDING', 'APPROVED', 'REJECTED'))
-) DEFAULT CHARSET = utf8mb4;
 -- 2/10 추가!!!!!!!!!!!!!!!!!!!!!!!!
 CREATE TABLE user_current_location
 (

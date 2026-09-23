@@ -2,10 +2,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="dto.AddSpotApplication" %>
-<%@ page import="dto.RemoveSpotApplication" %>
 <%@ page import="dto.PostReport" %>
 <%@ page import="dao.AddSpotApplicationRepository" %>
-<%@ page import="dao.RemoveSpotApplicationRepository" %>
 <%@ page import="dao.PostReportRepository" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -19,10 +17,8 @@
 <%
     // AdminFilter가 /admin/* 경로 전체를 보호하므로 여기선 역할 체크 생략
     ArrayList<AddSpotApplication> addList    = AddSpotApplicationRepository.getAllPending();
-    ArrayList<RemoveSpotApplication> removeList = RemoveSpotApplicationRepository.getAllPending();
     List<PostReport> reportList              = PostReportRepository.getAllPending();
     request.setAttribute("addList",    addList);
-    request.setAttribute("removeList", removeList);
     request.setAttribute("reportList", reportList);
 
     String csrfToken = util.CsrfUtil.getOrCreateToken(session);
@@ -51,11 +47,6 @@
         <li class="nav-item">
             <a class="nav-link <%= "add".equals(activeTab) ? "active" : "" %>" data-tab="addTab" href="#">
                 장소 추가 신청 <span class="badge bg-primary">${addList.size()}</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link <%= "remove".equals(activeTab) ? "active" : "" %>" data-tab="removeTab" href="#">
-                장소 삭제 신청 <span class="badge bg-danger">${removeList.size()}</span>
             </a>
         </li>
         <li class="nav-item">
@@ -143,51 +134,7 @@
             </c:choose>
         </div>
 
-        <!-- ② 장소 삭제 신청 -->
-        <div class="tab-pane <%= "remove".equals(activeTab) ? "show active" : "" %>" id="removeTab">
-            <c:choose>
-                <c:when test="${empty removeList}">
-                    <div class="alert alert-secondary">대기 중인 장소 삭제 신청이 없습니다.</div>
-                </c:when>
-                <c:otherwise>
-                    <table class="table table-bordered table-hover align-middle">
-                        <thead class="table-light">
-                        <tr>
-                            <th>신청자</th>
-                            <th>장소명</th>
-                            <th>삭제 사유</th>
-                            <th>신청일</th>
-                            <th>처리</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach var="app" items="${removeList}">
-                            <tr>
-                                <td><c:out value="${app.userId}"/></td>
-                                <td><c:out value="${app.spotName}"/> <small class="text-muted">(ID: <c:out value="${app.spotId}"/>)</small></td>
-                                <td><c:out value="${app.removeReason}"/></td>
-                                <td><small>${app.createdAt}</small></td>
-                                <td>
-                                    <form action="${pageContext.request.contextPath}/admin/approveRemoveSpot" method="post" class="d-inline">
-                                        <input type="hidden" name="applicationId" value="${app.applicationId}">
-                                        <input type="hidden" name="spotId" value="${app.spotId}">
-                                        <input type="hidden" name="action" value="approve">
-                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                        <button type="submit" class="btn btn-success btn-sm"
-                                                onclick="return confirm('장소를 삭제하시겠습니까? 되돌릴 수 없습니다.')">승인</button>
-                                    </form>
-                                    <button class="btn btn-danger btn-sm"
-                                            onclick="openRejectModal('approveRemoveSpot','${app.applicationId}','${app.spotId}')">거절</button>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                </c:otherwise>
-            </c:choose>
-        </div>
-
-        <!-- ③ 게시글 신고 -->
+        <!-- ② 게시글 신고 -->
         <div class="tab-pane <%= "report".equals(activeTab) ? "show active" : "" %>" id="reportTab">
             <c:choose>
                 <c:when test="${empty reportList}">
